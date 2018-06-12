@@ -20,29 +20,34 @@
     </h2>
     <nav>
       <li>
-        <a href="#">Login</a>
+        <a href="./offers.html">See Offers</a>
       </li>
       <li>
-        <a href="./singup.html" class="btn">Sign up</a>
+        <a href="./profile.html">Profile</a>
+      </li>
+      <li>
+        <a href="../index.html">Logout</a>
       </li>
     </nav>
   </header>
 
   <section class="section-wrapper">
-    <form id="login">
+    <form id="offer-ride">
       <div class="form-body">
         <div class="wrapper">
-          <label for="email">Email</label>
-          <input type="text" name="email" id="email" />
+          <label for="destination">Destination</label>
+          <input type="text" name="destination" id="destination" />
         </div>
         <div class="wrapper">
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" />
+          <label for="destination">Departure Time</label>
+          <input type="time" name="departureTime" id="departureTime" />
         </div>
-        <a href="javascript:void(0);" class="btn form-button">Login</a>
-        <p id="info">Don't have an account?
-          <a href="./singup.html">Sign Up</a>
-        </p>
+        <div class="wrapper">
+          <label for="email">Vehicle Details</label>
+          <textarea name="vehicleDetails" id="carDetails" cols="50" rows="4"></textarea>
+          <!-- <textarea rows="4" cols="50" name="vehicleDetails" id="carDetails"></textarea> -->
+        </div>
+        <a href="javascript:void(0);" class="btn form-button">Create Offer</a>
       </div>
     </form>
   </section>

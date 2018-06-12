@@ -140,6 +140,16 @@ header nav li {
   height: 80%;
 }
 
+textarea {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  font-size: 0.85em;
+  margin: 5px 1px 5px 0px;
+  outline: none;
+  padding: 3px 10px 3px 10px;
+  width: 100%;
+}
+
 input {
   border: 1px solid #dddddd;
   border-radius: 5px;
@@ -151,7 +161,7 @@ input {
   width: 100%;
 }
 
-input:focus {
+input:focus, textarea:focus {
   box-shadow: 0 0 10px rgba(140, 196, 73, 0.6);
 }
 
@@ -300,4 +310,8 @@ th.main-header {
   height: 60px;
   margin-right: 1em;
   width: 60px;
+}
+
+.fa-plus {
+  margin-right: 0.5em;
 }
