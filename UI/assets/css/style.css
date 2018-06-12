@@ -130,3 +130,62 @@ header nav li {
   }
 }
 
+/* Form Styles */
+
+.form-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80%;
+}
+
+input {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  font-size: 0.85em;
+  height: 30px;
+  margin: 5px 1px 5px 0px;
+  outline: none;
+  padding: 3px 10px 3px 10px;
+  width: 100%;
+}
+
+input:focus {
+  box-shadow: 0 0 10px rgba(140, 196, 73, 0.6);
+}
+
+.wrapper {
+  margin-bottom: 1.2em;
+  width: 70%;
+}
+
+.wrapper>label {
+  display: block;
+}
+
+.form-body {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+form {
+  border: 1px solid #f1f1f1;
+  border-radius: 5px;
+  min-width: 300px;
+  padding: 3em 0;
+  width: 40%;
+}
+
+.form-button {
+  cursor: not-allowed;
+  pointer-events: none;
+  width: 70%;
+}
+
+#info {
+  margin-top: 1em;
+}
+
