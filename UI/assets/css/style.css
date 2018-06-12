@@ -240,3 +240,64 @@ form {
   padding: 2px 5px 2px 5px;
   cursor: pointer;
 }
+
+/* Profile Styles */
+
+.details {
+  align-items: center;
+  display: flex;
+  font-weight: 700;
+  justify-content: space-between;
+  margin: 2em 1em;
+  width: 100%;
+}
+
+.information {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.greeting {
+  font-size: 2em;
+}
+
+.ride-info {
+  align-items: center;
+  border: 1px solid #7E7C80;
+  border-radius: 5px;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  margin-right: 1em;
+  text-align: center;
+  width: 200px;
+}
+
+table {
+  border-collapse: collapse;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  width: 80%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+th.main-header {
+  text-align: center;
+}
+
+.profile-image {
+  border-radius: 100%;
+  height: 60px;
+  margin-right: 1em;
+  width: 60px;
+}
