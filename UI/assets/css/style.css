@@ -60,6 +60,10 @@ a.btn:active {
   margin-right: 0.5em;
 }
 
+.link-active {
+  color: var(--main-color);
+}
+
 /* Header Styles */
 
 header {
@@ -67,13 +71,30 @@ header {
   animation: 1s fadein 0.5s forwards;
   background-color: #ffffff;
   border-bottom: 1px solid #f8f8f9;
-  box-shadow: 0 4px 20px -2px #f8f8f9;
+  box-shadow: 0 4px 20px -2px #D0D0D0;
   color: var(--font-color);
   display: flex;
   justify-content: space-between;
   opacity: 0;
   padding: 20px 16px;
   width: 100%;
+}
+
+
+@media all and (max-width: 450px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  header h2 {
+    padding-bottom: 0.5em;
+  }
+
+  header nav {
+    border-top: 1px solid #E8E8E8;
+    padding-top: 1.2em;
+  }
 }
 
 header a {
@@ -85,7 +106,6 @@ header a {
 header nav {
   align-items: center;
   display: flex;
-  margin-right: -15px;
 }
 
 header nav li {
@@ -187,7 +207,7 @@ textarea:focus {
 }
 
 form {
-  border: 1px solid #f1f1f1;
+  border: 1px solid #D0D0D0;
   border-radius: 5px;
   min-width: 300px;
   padding: 3em 0;
@@ -256,6 +276,23 @@ form {
   cursor: pointer;
 }
 
+@media all and (max-width: 350px) {
+  .offer {
+    height: 42vh;
+    min-width: 300px;
+  }
+
+  .offer-main-content {
+    height: 34vh;
+  }
+
+  .offer > a.btn {
+    height: 2em;
+    line-height: calc(2em - 4px);
+    margin-top: 3px;
+  }
+}
+
 /* Profile Styles */
 
 .details {
@@ -270,11 +307,16 @@ form {
 .information {
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
 }
 
+.information * {
+  margin-right: 1em;
+}
+
 .greeting {
-  font-size: 2em;
+  font-size: 1.6em;
 }
 
 .ride-info {
@@ -284,9 +326,8 @@ form {
   display: flex;
   height: 50px;
   justify-content: center;
-  margin-right: 1em;
   text-align: center;
-  width: 200px;
+  width: 150px;
 }
 
 table {
@@ -316,4 +357,16 @@ th.main-header {
   height: 60px;
   margin-right: 1em;
   width: 60px;
+}
+
+@media all and (max-width: 450px) {
+  .information * {
+    margin-right: 0;
+    margin-bottom: 0.5em;
+    text-align: center;
+  }
+
+  .information .btn i {
+    margin-right: 0.5em;
+  }
 }
