@@ -202,6 +202,12 @@ form {
   margin-top: 1em;
 }
 
+#error {
+  color: red;
+  display: none;
+  font-size: 0.7em;
+}
+
 /* Offer Styles */
 
 .offer {
