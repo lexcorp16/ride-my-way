@@ -36,7 +36,8 @@ li>a:hover {
   margin-right: 10px;
 }
 
-a.btn {
+a.btn,
+a.btn-small {
   background: var(--main-color);
   border: 2px solid var(--main-color);
   border-radius: 4px;
@@ -51,7 +52,25 @@ a.btn {
   text-decoration: none;
 }
 
-a.btn:active {
+a.btn-small {
+  height: 2em;
+  line-height: calc(2em - 4px);
+  margin-right: 0.5em;
+  min-width: 5em;
+}
+
+@media all and (max-width: 450px) {
+  a.btn-small {
+    min-width: 3em;
+  }
+}
+
+a.danger {
+  background: #ed2939;
+  border: 2px solid #ed2939;
+}
+
+a.btn:active a.btn-small:active {
   box-shadow: none;
   transform: translateX(2px);
 }
@@ -80,7 +99,6 @@ header {
   width: 100%;
 }
 
-
 @media all and (max-width: 450px) {
   header {
     flex-wrap: wrap;
@@ -90,7 +108,7 @@ header {
   header h2 {
     padding-bottom: 0.5em;
   }
-
+  
   header nav {
     border-top: 1px solid #E8E8E8;
     padding-top: 1.2em;
@@ -162,6 +180,7 @@ header nav li {
   flex-direction: column;
   justify-content: center;
   height: 80%;
+  margin-bottom: 3em;
 }
 
 textarea {
@@ -369,4 +388,81 @@ th.main-header {
   .information .btn i {
     margin-right: 0.5em;
   }
+}
+
+/* My Offers Styles */
+
+.request {
+  align-items: center;
+  border: 1px solid #7e7c80;
+  border-radius: 5px;
+  display: flex;
+  height: 40px;
+  justify-content: space-between;
+  width: 90%;
+}
+
+@media all and (max-width: 450px) {
+  .request {
+    font-size: 0.9em;
+  }
+}
+
+.request>p {
+  margin-left: 0.8em;
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.collapsible {
+  align-items: center;
+  background-color: #dddddd;
+  border: none;
+  color: #414042;
+  cursor: pointer;
+  display: flex;
+  margin-top: 2em;
+  outline: none;
+  padding: 18px;
+  width: 90%;
+}
+
+.collapsible>div p:not(:last-child) {
+  padding-bottom: 0.5em;
+}
+
+.active,
+.collapsible:hover {
+  background-color: #c0c0c0;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: #414042;
+  font-weight: bold;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+}
+
+.active:after {
+  content: '\2212';
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  width: 100%;
+}
+
+.title {
+  margin-top: 2em;
 }
