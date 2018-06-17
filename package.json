@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --fix",
     "start": "nodemon index.js --exec babel-node",
-    "test": "mocha --require babel-core/register"
+    "test": "mocha --exit --require babel-core/register"
   },
   "repository": {
     "type": "git",
