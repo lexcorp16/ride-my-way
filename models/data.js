@@ -8,8 +8,8 @@ const response = {
       pointOfDeparture: 'Ijanikin',
       requests: [
         { id: 1, name: 'Tolu', accepted: null },
-        { id: 1, name: 'Tosin', accepted: null },
-        { id: 1, name: 'Teni', accepted: null },
+        { id: 2, name: 'Tosin', accepted: null },
+        { id: 3, name: 'Teni', accepted: null },
       ],
     },
     {
@@ -20,8 +20,8 @@ const response = {
       pointOfDeparture: 'Ijanikin',
       requests: [
         { id: 1, name: 'Tolu', accepted: null },
-        { id: 1, name: 'Tosin', accepted: null },
-        { id: 1, name: 'Teni', accepted: null },
+        { id: 2, name: 'Tosin', accepted: null },
+        { id: 3, name: 'Teni', accepted: null },
       ],
     },
     {
@@ -32,8 +32,8 @@ const response = {
       pointOfDeparture: 'Ijanikin',
       requests: [
         { id: 1, name: 'Tolu', accepted: null },
-        { id: 1, name: 'Tosin', accepted: null },
-        { id: 1, name: 'Teni', accepted: null },
+        { id: 2, name: 'Tosin', accepted: null },
+        { id: 3, name: 'Teni', accepted: null },
       ],
     },
   ],
