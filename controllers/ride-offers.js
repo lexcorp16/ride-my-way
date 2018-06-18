@@ -19,4 +19,34 @@ const getOneRide = (req, res) => {
   });
 };
 
-export { getAllRides, getOneRide };
+const createRideOffer = (req, res) => {
+  const {
+    driver,
+    destination,
+    departureTime,
+    pointOfDeparture,
+  } = req.body;
+
+  if (!driver || !destination || !departureTime || !pointOfDeparture) {
+    return res.status(400).send({
+      error: 'Required field missing',
+    });
+  }
+
+  const id = response.data.length + 1;
+
+  response.data.push({
+    id,
+    driver,
+    departureTime,
+    destination,
+    pointOfDeparture,
+    requests: [],
+  });
+
+  return res.status(201).send({
+    data: response.data[id - 1],
+  });
+};
+
+export { getAllRides, getOneRide, createRideOffer };

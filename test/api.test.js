@@ -41,4 +41,41 @@ describe('API tests', () => {
         done();
       });
   });
+
+  it('Creates a new ride offer', (done) => {
+    const newRide = {
+      driver: 'Casper Gambini',
+      destination: 'Toronto',
+      departureTime: '10:30 PM',
+      pointOfDeparture: 'Ontario',
+    };
+
+    request(app)
+      .post('/api/v1/rides')
+      .send(newRide)
+      .expect(201)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(201);
+        expect(res.body.data.driver).to.equal('Casper Gambini');
+        done();
+      });
+  });
+
+  it('Returns a 400 if a required field is absent when creating a new ride offer', (done) => {
+    const newRide = {
+      driver: 'Casper Gambini',
+      departureTime: '10:30 PM',
+      pointOfDeparture: 'Ontario',
+    };
+
+    request(app)
+      .post('/api/v1/rides')
+      .send(newRide)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(400);
+        expect(res.body.error).to.contain('Required field missing');
+        done();
+      });
+  });
 });
