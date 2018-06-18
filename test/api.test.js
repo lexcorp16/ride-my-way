@@ -78,4 +78,32 @@ describe('API tests', () => {
         done();
       });
   });
+
+  it('Makes a request to join a ride offer', (done) => {
+    const name = 'Zoyal';
+
+    request(app)
+      .post('/api/v1/rides/2/requests')
+      .send({ name })
+      .expect(201)
+      .end((err, res) => {
+        const { requests } = res.body.data;
+        const latestRequest = requests[requests.length - 1];
+
+        expect(res.statusCode).to.equal(201);
+        expect(latestRequest.name).to.contain('Zoyal');
+        done();
+      });
+  });
+
+  it('Returns a 400 if a required field is absent when making a request to join a ride', (done) => {
+    request(app)
+      .post('/api/v1/rides/2/requests')
+      .expect(400)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(400);
+        expect(res.body.error).to.contain('Required field missing');
+        done();
+      });
+  });
 });
