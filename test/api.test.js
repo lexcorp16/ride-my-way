@@ -31,7 +31,7 @@ describe('API tests', () => {
       });
   });
 
-  it('Returns a 404 if a ride offer does not exist', (done) => {
+  it('Returns a 404 if a ride offer does not exist when trying to get a single ride offer', (done) => {
     request(app)
       .get('/api/v1/rides/0')
       .expect(404)
@@ -103,6 +103,28 @@ describe('API tests', () => {
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);
         expect(res.body.error).to.contain('Required field missing');
+        done();
+      });
+  });
+
+  it('Gets all requests for ride offer', (done) => {
+    request(app)
+      .get('/api/v1/rides/1/requests')
+      .expect(200)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200);
+        expect(res.body.data).to.be.instanceof(Array);
+        done();
+      });
+  });
+
+  it('Returns a 404 if a ride offer does not exist when trying to get offer requests', (done) => {
+    request(app)
+      .get('/api/v1/rides/0/requests')
+      .expect(404)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(404);
+        expect(res.body.error).to.contain('Out of bounds');
         done();
       });
   });
