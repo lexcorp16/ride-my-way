@@ -86,4 +86,48 @@ const getOfferRequests = (req, res) => {
   });
 };
 
-export { getAllRides, getOneRide, createRideOffer, joinRide, getOfferRequests };
+const respondToRideRequest = (req, res) => {
+  const { accept } = req.body;
+
+  if (!accept) {
+    return res.status(400).send({
+      error: 'Required field missing',
+    });
+  } else if (
+    req.params.rideId < 1 ||
+    req.params.rideId > SIZE_OF_DATA ||
+    response.data[req.params.rideId - 1].requests[req.params.requestId - 1] ===
+      undefined
+  ) {
+    return res.status(404).send({
+      error: 'Out of bounds',
+    });
+  }
+
+  if (accept === 'true') {
+    response.data[req.params.rideId - 1].requests[
+      req.params.requestId - 1
+    ].accepted = true;
+
+    return res.status(201).send({
+      data: response.data[req.params.rideId - 1],
+    });
+  } else if (accept === 'false') {
+    response.data[req.params.rideId - 1].requests[
+      req.params.requestId - 1
+    ].accepted = false;
+
+    return res.status(201).send({
+      data: response.data[req.params.rideId - 1],
+    });
+  }
+};
+
+export {
+  getAllRides,
+  getOneRide,
+  createRideOffer,
+  joinRide,
+  getOfferRequests,
+  respondToRideRequest,
+};
