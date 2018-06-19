@@ -14,4 +14,6 @@ router.post('/api/v1/rides', rideController.createRideOffer);
 
 router.post('/api/v1/rides/:rideId/requests', rideController.joinRide);
 
+router.post('/api/v1/rides/:rideId/requests/:requestId', rideController.respondToRideRequest);
+
 export default router;
