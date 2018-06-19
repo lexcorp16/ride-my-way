@@ -75,4 +75,15 @@ const joinRide = (req, res) => {
   });
 };
 
-export { getAllRides, getOneRide, createRideOffer, joinRide };
+const getOfferRequests = (req, res) => {
+  if (req.params.rideId < 1 || req.params.rideId > SIZE_OF_DATA) {
+    return res.status(404).send({
+      error: 'Out of bounds',
+    });
+  }
+  return res.status(200).send({
+    data: response.data[req.params.rideId - 1].requests,
+  });
+};
+
+export { getAllRides, getOneRide, createRideOffer, joinRide, getOfferRequests };
