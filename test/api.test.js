@@ -128,4 +128,63 @@ describe('API tests', () => {
         done();
       });
   });
+
+  it('Returns a 400 if the "accept" property is absent when responding to a request to a ride offer', (done) => {
+    request(app)
+      .post('/api/v1/rides/2/requests/2')
+      .expect(400)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(400);
+        expect(res.body.error).to.contain('Required field missing');
+        done();
+      });
+  });
+
+  it('Returns a 404 if a ride offer does not exist when responding to a request to a ride offer', (done) => {
+    request(app)
+      .post('/api/v1/rides/0/requests/2')
+      .send({ accept: 'true' })
+      .expect(404)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(404);
+        expect(res.body.error).to.contain('Out of bounds');
+        done();
+      });
+  });
+
+  it('Returns a 404 if a request does not exist when responding to a request to a ride offer', (done) => {
+    request(app)
+      .post('/api/v1/rides/1/requests/6')
+      .send({ accept: 'true' })
+      .expect(404)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(404);
+        expect(res.body.error).to.contain('Out of bounds');
+        done();
+      });
+  });
+
+  it('Correctly sets accepted property to true', (done) => {
+    request(app)
+      .post('/api/v1/rides/2/requests/2')
+      .send({ accept: 'true' })
+      .expect(201)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(201);
+        expect(res.body.data.requests[1].accepted).to.be.true;
+        done();
+      });
+  });
+
+  it('Correctly sets accepted property to false', (done) => {
+    request(app)
+      .post('/api/v1/rides/2/requests/2')
+      .send({ accept: 'false' })
+      .expect(201)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(201);
+        expect(res.body.data.requests[1].accepted).to.be.false;
+        done();
+      });
+  });
 });
