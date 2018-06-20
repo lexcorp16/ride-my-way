@@ -5,7 +5,7 @@ env:
   global:
     - CC_TEST_REPORTER_ID=36d5a2ed9ae3ceecc1aee708894837741f7333d4c56d8186d6d163a0827e8d75
 before_script:
-  - npm install -g nyc coveralls
+  - npm install -g nyc coveralls codeclimate-test-reporter
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
