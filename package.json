@@ -9,7 +9,7 @@
     "dev": "nodemon index.js --exec babel-node",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --require babel-core/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "build": "rimraf dist/ && babel ./ -d dist/ --ignore ./coverage,./node_modules,./.babelrc,./package.json,./package-lock.json,./npm-debug.log"
+    "build": "rimraf dist/ && babel ./ -d dist/ --ignore ./coverage,./node_modules,./.babelrc,./package.json,./package-lock.json,./npm-debug.log,./test"
   },
   "repository": {
     "type": "git",
