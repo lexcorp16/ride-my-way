@@ -11,11 +11,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', apiRoutes);
+app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.send('Ride My Way!');
-});
+app.use('/api', apiRoutes);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
