@@ -278,6 +278,26 @@ form {
   width: 100%;
 }
 
+.offer-main-content i {
+  color: var(--main-color);
+}
+
+.offer-main-content p {
+  display: flex;
+  flex-direction: row;
+}
+
+.offer-main-content p > b {
+  margin-left: 70px;
+}
+
+.find-ride {
+  background-image: url('../images/search-icon.png');
+  background-position: 98% 50%;
+  background-repeat: no-repeat;
+  width: 30%;
+}
+
 .offer-main-content>p {
   margin-bottom: 0.5em;
 }
