@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href='https://fonts.googleapis.com/css?family=Proza Libre' rel='stylesheet'>
+  <link rel="stylesheet" href="./style.css">
+  <title>API Description</title>
+</head>
+
+<body>
+  <section>
+    <h2>Welcome to Ride My Way API!!!</h2>
+    <p>Whip out your trusty old postman to test out the following endpoints :)</p>
+    <table>
+      <tr>
+        <th>Endpoint</th>
+        <th>Method</th>
+        <th>Request Body</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>api/v1/rides</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>Gets all ride offers</td>
+      </tr>
+      <tr>
+        <td>api/v1/rides</td>
+        <td>POST</td>
+        <td>
+          <b>driver:</b> string,
+          <b>destination:</b> string,
+          <b>departureTime:</b> string,
+          <b>pointOfDeparture:</b> string</td>
+        <td>Creates a new ride offer</td>
+      </tr>
+      <tr>
+        <td>api/v1/rides/:rideId</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>Gets a single ride offer</td>
+      </tr>
+      <tr>
+        <td>api/v1/rides/:rideId/requests</td>
+        <td>POST</td>
+        <td>
+          <b>name:</b> string</td>
+        <td>Join a ride offer</td>
+      </tr>
+      <tr>
+        <td>api/v1/rides/:rideId/requests</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>Gets all requests for a ride offer</td>
+      </tr>
+      <tr>
+        <td>api/v1/rides/:rideId/requests/:requestId</td>
+        <td>POST</td>
+        <td>
+          <b>accept:</b> true | false</td>
+        <td>Responds to a requests to join a ride offer</td>
+      </tr>
+    </table>
+  </section>
+</body>
+
+</html>
