@@ -87,14 +87,13 @@ a.btn:active a.btn-small:active {
 
 header {
   align-items: center;
-  animation: 1s fadein 0.5s forwards;
   background-color: #ffffff;
   border-bottom: 1px solid #f8f8f9;
   box-shadow: 0 4px 20px -2px #D0D0D0;
   color: var(--font-color);
   display: flex;
   justify-content: space-between;
-  opacity: 0;
+  opacity: 1;
   padding: 20px 16px;
   width: 100%;
 }
@@ -139,6 +138,11 @@ header nav li {
 }
 
 /* Landing Page Styles */
+
+.landing {
+  animation: 1s fadein 0.5s forwards;
+  opacity: 0;
+}
 
 .main {
   align-items: center;
