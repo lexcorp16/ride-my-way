@@ -113,6 +113,11 @@ header {
     padding-top: 1.2em;
     width: 100%;
   }
+
+  header .search {
+    margin-bottom: 1em;
+    width: 100%;
+  }
 }
 
 header a {
@@ -265,6 +270,32 @@ form {
   width: 29%;
 }
 
+.search-fields {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  display: flex;
+  width: 100%;
+}
+
+.search {
+  align-items: center;
+  display: flex;
+  width: 30%;
+}
+
+.search a {
+  height: 2em;
+  line-height: calc(2em - 4px);
+  margin-right: 0.5em;
+  margin-left: 1em;
+  min-width: 3em;
+}
+
+.search-fields select {
+  border: none;
+  height: 30px;
+}
+
 .offer:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
@@ -296,10 +327,8 @@ form {
 }
 
 .find-ride {
-  background-image: url('../images/search-icon.png');
-  background-position: 98% 50%;
-  background-repeat: no-repeat;
-  width: 30%;
+  margin: 0;
+  width: 50%;
 }
 
 .offer-main-content>p {
@@ -373,6 +402,15 @@ form {
   justify-content: center;
   text-align: center;
   width: 150px;
+}
+
+.ride-info p {
+  margin: 0;
+}
+
+.ride-info p.text {
+  font-size: 0.9em;
+  font-weight: lighter;
 }
 
 table {
