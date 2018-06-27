@@ -1,5 +1,5 @@
 import response from '../models/data';
-import checkParams from '../services/utils';
+import * as utils from '../services/utils';
 
 const SIZE_OF_DATA = response.data.length;
 
@@ -10,7 +10,7 @@ const getAllRides = (req, res) => {
 };
 
 const getOneRide = (req, res) => {
-  checkParams(req.params.rideId, SIZE_OF_DATA, res);
+  utils.checkParams(req.params.rideId, SIZE_OF_DATA, res);
 
   return res.status(200).send({
     data: response.data[req.params.rideId - 1],
@@ -56,7 +56,7 @@ const joinRide = (req, res) => {
     });
   }
 
-  checkParams(req.params.rideId, SIZE_OF_DATA, res);
+  utils.checkParams(req.params.rideId, SIZE_OF_DATA, res);
 
   const id = response.data[req.params.rideId - 1].requests.length + 1;
 
@@ -72,7 +72,7 @@ const joinRide = (req, res) => {
 };
 
 const getOfferRequests = (req, res) => {
-  checkParams(req.params.rideId, SIZE_OF_DATA, res);
+  utils.checkParams(req.params.rideId, SIZE_OF_DATA, res);
 
   return res.status(200).send({
     data: response.data[req.params.rideId - 1].requests,
