@@ -4,8 +4,10 @@ node_js:
 env:
   global:
     - CC_TEST_REPORTER_ID=36d5a2ed9ae3ceecc1aee708894837741f7333d4c56d8186d6d163a0827e8d75
+    - JWTSECRET=myjwtsecret
 before_script:
   - npm install -g nyc
+  - psql -c 'create database ride_my_way_test;' -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
@@ -14,4 +16,7 @@ script:
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - npm run coverage
-
+services:
+  - postgresql
+addons:
+  postgresql: "9.6"
