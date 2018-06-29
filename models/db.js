@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const client = new Pool({
+  connectionString: process.env.DATABASE_URL,
   user:
     process.env.NODE_ENV === 'test'
       ? process.env.PGUSER_TEST
