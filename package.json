@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --fix",
-    "start": "npm run build && node dist/models/createUserTable.js && node dist/index.js",
+    "start": "npm run build && node dist/index.js",
     "create:usertable": "babel-node ./models/createUserTable.js --presets env",
     "dev": "nodemon index.js --exec babel-node",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --require babel-core/register",
