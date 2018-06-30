@@ -3,18 +3,26 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 import client from '../models/db';
-import * as utils from '../services/utils';
+
+const uuid = require('uuid/v1');
 
 dotenv.config();
 
 const createUser = (req, res) => {
-  const { email, password } = req.body;
+  const {
+    email,
+    password,
+    fullName,
+    phoneNumber,
+  } = req.body;
 
   const hashedPassword = bcrypt.hashSync(password, 8);
 
   client
-    .query('INSERT INTO users(id, email, password) values($1, $2, $3) RETURNING *', [
-      utils.guid(),
+    .query('INSERT INTO users(id, full_name, phone_number, email, password) values($1, $2, $3, $4, $5) RETURNING *', [
+      uuid(),
+      fullName,
+      phoneNumber,
       email,
       hashedPassword,
     ])
@@ -30,7 +38,12 @@ const createUser = (req, res) => {
           success: true,
           authenticated: true,
           token,
-          user: response.rows[0],
+          user: {
+            id: response.rows[0].id,
+            email: response.rows[0].email,
+            fullName: response.rows[0].full_name,
+            phoneNumber: response.rows[0].phone_number,
+          },
         });
     })
     .catch(() => {
@@ -60,7 +73,7 @@ const logInUser = (req, res) => {
             success: false,
             authenticated: false,
             token: null,
-            error: 'Password is incorrect.',
+            error: 'Email or Password is incorrect.',
           });
       }
 
@@ -72,7 +85,12 @@ const logInUser = (req, res) => {
         success: true,
         authenticated: true,
         token,
-        user: response.rows[0],
+        user: {
+          id: response.rows[0].id,
+          email: response.rows[0].email,
+          fullName: response.rows[0].fullName,
+          phoneNumber: response.rows[0].password,
+        },
       });
     })
     .catch(() => {
