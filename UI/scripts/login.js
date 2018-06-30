@@ -7,7 +7,7 @@ button.onclick = () => {
     error.setAttribute('style', 'display: initial;')
     error.innerHTML = 'All form fields are required';
   } else {
-    window.location.href = '../views/profile.html'
+    window.location.href = '../views/offers.html'
   }
 };
 

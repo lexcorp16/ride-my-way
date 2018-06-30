@@ -11,7 +11,7 @@ button.onclick = () => {
     error.setAttribute('style', 'display: initial;')
     error.innerHTML = 'Passwords do not match';
   } else {
-    window.location.href = '../views/profile.html'
+    window.location.href = '../views/offers.html'
   }
 };
 

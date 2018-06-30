@@ -29,16 +29,24 @@
     <form action="">
       <div class="form-body">
         <div class="wrapper">
+          <label for="email">Full name</label>
+          <input type="text" name="fullName" id="fullName" required/>
+        </div>
+        <div class="wrapper">
+          <label for="email">Phone Number</label>
+          <input type="text" name="phoneNumber" id="phoneNumber" required/>
+        </div>
+        <div class="wrapper">
           <label for="email">Email</label>
-          <input type="text" name="email" id="email" />
+          <input type="text" name="email" id="email" required/>
         </div>
         <div class="wrapper">
           <label for="password">Password</label>
-          <input type="password" name="password" id="password" />
+          <input type="password" name="password" id="password" required/>
         </div>
         <div class="wrapper">
           <label for="confirmPassword">Confirm Password</label>
-          <input type="password" name="confirmPassword" id="confirmPassword" />
+          <input type="password" name="confirmPassword" id="confirmPassword" required/>
         </div>
         <p id="error"></p>
         <a href="javascript:void(0);" class="btn form-button" id="submit">Sign Up</a>

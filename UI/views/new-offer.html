@@ -36,15 +36,19 @@
       <div class="form-body">
         <div class="wrapper">
           <label for="destination">Destination</label>
-          <input type="text" name="destination" id="destination" />
+          <input type="text" name="destination" id="destination" required/>
+        </div>
+        <div class="wrapper">
+          <label for="destination">Point Of Departure</label>
+          <input type="text" name="pointOfDeparture" id="pointOfDeparture" required/>
         </div>
         <div class="wrapper">
           <label for="destination">Departure Time</label>
-          <input type="time" name="departureTime" id="departureTime" />
+          <input type="time" name="departureTime" id="departureTime" required/>
         </div>
         <div class="wrapper">
-          <label for="email">Vehicle Details</label>
-          <textarea name="vehicleDetails" id="vehicleDetails" cols="50" rows="4"></textarea>
+          <label for="email">Vehicle Capacity</label>
+          <input type="number" name="vehicleCapacity" id="vehicleCapacity" required/>
         </div>
         <p id="error"></p>
         <a href="javascript:void(0);" class="btn form-button" id="submit">Create Offer</a>

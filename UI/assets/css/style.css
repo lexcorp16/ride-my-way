@@ -83,6 +83,10 @@ a.btn:active a.btn-small:active {
   color: var(--main-color);
 }
 
+.promo-image {
+  max-width: 80%;
+}
+
 /* Header Styles */
 
 header {
@@ -153,7 +157,6 @@ header nav li {
   align-items: center;
   color: var(--font-color);
   display: flex;
-  height: 100%;
   justify-content: center;
   text-align: center;
 }
@@ -178,7 +181,7 @@ header nav li {
 
 @keyframes slidefade {
   100% {
-    margin: 0;
+    margin-top: 20px;
     opacity: 1;
   }
 }
@@ -190,8 +193,8 @@ header nav li {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 80%;
-  margin-bottom: 3em;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 textarea {
@@ -202,6 +205,10 @@ textarea {
   outline: none;
   padding: 3px 10px 3px 10px;
   width: 100%;
+}
+
+#login {
+  margin-top: 2em;
 }
 
 input {
@@ -265,13 +272,12 @@ form {
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   height: 35vh;
-  margin-top: 20px;
+  margin-bottom: 20px;
   min-width: 340px;
   width: 29%;
 }
 
 .search-fields {
-  border: 1px solid #dddddd;
   border-radius: 5px;
   display: flex;
   width: 100%;
@@ -315,6 +321,7 @@ form {
 
 .offer-main-content i {
   color: var(--main-color);
+  width: 20px;
 }
 
 .offer-main-content p {
@@ -328,6 +335,7 @@ form {
 
 .find-ride {
   margin: 0;
+  margin-left: 1em;
   width: 50%;
 }
 
@@ -525,8 +533,4 @@ th.main-header {
   overflow: hidden;
   transition: max-height 0.2s ease-out;
   width: 100%;
-}
-
-.title {
-  margin-top: 2em;
 }
