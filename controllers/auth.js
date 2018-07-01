@@ -88,8 +88,8 @@ const logInUser = (req, res) => {
         user: {
           id: response.rows[0].id,
           email: response.rows[0].email,
-          fullName: response.rows[0].fullName,
-          phoneNumber: response.rows[0].password,
+          fullName: response.rows[0].full_name,
+          phoneNumber: response.rows[0].phone_number,
         },
       });
     })
