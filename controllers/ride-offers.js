@@ -1,109 +1,254 @@
-import response from '../models/data';
-import checkParams from '../services/utils';
+import client from '../models/db';
 
-const SIZE_OF_DATA = response.data.length;
+const uuid = require('uuid');
+
+const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 const getAllRides = (req, res) => {
-  res.status(200).send({
-    response,
-  });
+  const { destination, startingPoint } = req.query;
+
+  if (destination && startingPoint) {
+    client
+      .query('SELECT * from ride_offers WHERE destination = $1 AND point_of_departure = $2', [destination, startingPoint])
+      .then((resp) => {
+        res.status(200).send({
+          success: true,
+          data: resp.rows,
+          message: `${resp.rowCount} Rides round`,
+        });
+      })
+      .catch(() => {
+        res.status(500).send({
+          success: false,
+          error: 'An error occurred fetching ride offers.',
+        });
+      });
+  }
+  client
+    .query('SELECT * from ride_offers')
+    .then((resp) => {
+      res.status(200).send({
+        success: true,
+        data: resp.rows,
+      });
+    })
+    .catch(() => {
+      res.status(500).send({
+        success: false,
+        error: 'An error occurred fetching ride offers.',
+      });
+    });
 };
 
 const getOneRide = (req, res) => {
-  checkParams(req.params.rideId, SIZE_OF_DATA, res);
+  const { rideId } = req.params;
 
-  return res.status(200).send({
-    data: response.data[req.params.rideId - 1],
-  });
+  if (!uuidRegex.test(rideId)) {
+    return res.status(400).send({
+      success: false,
+      error: 'ID supplied is invalid',
+    });
+  }
+
+  client
+    .query('SELECT * from ride_offers WHERE id = $1', [rideId])
+    .then((resp) => {
+      if (resp.rowCount === 0) {
+        return res.status(404).send({
+          success: false,
+          error: 'Ride offer with that id does not exist.',
+        });
+      }
+      res.status(200).send({
+        success: true,
+        data: resp.rows[0],
+      });
+    })
+    .catch(() => {
+      res.status(500).send({
+        success: false,
+        error: 'An error occurred fetching details of ride offer.',
+      });
+    });
 };
 
 const createRideOffer = (req, res) => {
   const {
-    driver,
     destination,
     departureTime,
     pointOfDeparture,
+    vehicleCapacity,
+    departureDate,
   } = req.body;
 
-  if (!driver || !destination || !departureTime || !pointOfDeparture) {
+  if (
+    !vehicleCapacity ||
+    !destination ||
+    !departureTime ||
+    !pointOfDeparture ||
+    !departureDate
+  ) {
     return res.status(400).send({
-      error: 'Required field missing',
+      success: false,
+      error: 'A Required field is missing.',
     });
   }
 
-  const id = response.data.length + 1;
-
-  response.data.push({
-    id,
-    driver,
-    departureTime,
-    destination,
-    pointOfDeparture,
-    requests: [],
-  });
-
-  return res.status(201).send({
-    data: response.data[id - 1],
-  });
+  client
+    .query(
+      'INSERT INTO ride_offers(id, user_id, destination, point_of_departure, vehicle_capacity, departure_time, departure_date) values($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [
+        uuid(),
+        req.userId,
+        destination,
+        pointOfDeparture,
+        vehicleCapacity,
+        departureTime,
+        departureDate,
+      ],
+    )
+    .then((resp) => {
+      res.status(201).send({
+        success: true,
+        data: resp.rows[0],
+      });
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .send({ success: false, error: 'An error occurred when creating ride offer.' });
+    });
 };
 
 const joinRide = (req, res) => {
-  const { name } = req.body;
+  const { rideId } = req.params;
 
-  if (!name) {
+  if (!uuidRegex.test(rideId)) {
     return res.status(400).send({
-      error: 'Required field missing',
+      success: false,
+      error: 'ID supplied is invalid',
     });
   }
 
-  checkParams(req.params.rideId, SIZE_OF_DATA, res);
-
-  const id = response.data[req.params.rideId - 1].requests.length + 1;
-
-  response.data[req.params.rideId - 1].requests.push({
-    id,
-    name,
-    accepted: null,
-  });
-
-  return res.status(201).send({
-    data: response.data[req.params.rideId - 1],
-  });
+  client
+    .query('SELECT * FROM ride_offers WHERE id = $1', [rideId])
+    .then((resp) => {
+      if (resp.rowCount === 0) {
+        return res.status(404).send({
+          success: false,
+          error: 'A ride with that ID does not exist',
+        });
+      }
+      client
+        .query(
+          'INSERT INTO requests(id, ride_id, user_id) values($1, $2, $3) RETURNING *',
+          [uuid(), rideId, req.userId],
+        )
+        .then((data) => {
+          res.status(201).send({
+            success: true,
+            data: data.rows[0],
+          });
+        })
+        .catch(() => {
+          res.status(500).send({
+            success: false,
+            error: 'An error occurred when trying to make a request to a ride offer.',
+          });
+        });
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .send({ success: false, error: 'An unexpected error occured.' });
+    });
 };
 
 const getOfferRequests = (req, res) => {
-  checkParams(req.params.rideId, SIZE_OF_DATA, res);
+  const { rideId } = req.params;
 
-  return res.status(200).send({
-    data: response.data[req.params.rideId - 1].requests,
-  });
-};
-
-const respondToRideRequest = (req, res) => {
-  const { accept } = req.body;
-
-  if (!accept) {
+  if (!uuidRegex.test(rideId)) {
     return res.status(400).send({
-      error: 'Required field missing',
-    });
-  } else if (
-    req.params.rideId < 1 ||
-    req.params.rideId > SIZE_OF_DATA ||
-    response.data[req.params.rideId - 1].requests[req.params.requestId - 1] ===
-      undefined
-  ) {
-    return res.status(404).send({
-      error: 'Out of bounds',
+      success: false,
+      error: 'ID supplied is invalid',
     });
   }
 
-  response.data[req.params.rideId - 1].requests[
-    req.params.requestId - 1
-  ].accepted = (accept === 'true');
+  client
+    .query('SELECT * from requests where ride_id = $1', [rideId])
+    .then((resp) => {
+      res.status(200).send({
+        success: true,
+        data: resp.rows,
+      });
+    })
+    .catch(() => {
+      res.status(500).send({
+        success: false,
+        error: 'An error occurred fetching requests.',
+      });
+    });
+};
 
-  return res.status(201).send({
-    data: response.data[req.params.rideId - 1],
-  });
+const respondToRideRequest = (req, res) => {
+  const { status } = req.body;
+  const { rideId, requestId } = req.params;
+
+  const validStatus = ['accepted', 'rejected'];
+
+  if (!validStatus.includes(status.toLowerCase())) {
+    return res.status(400).send({
+      success: false,
+      error: 'status field supplied is invalid. Please supply "acepted" or "rejected"',
+    });
+  }
+
+  if (!uuidRegex.test(rideId) || !uuidRegex.test(rideId)) {
+    return res.status(400).send({
+      success: false,
+      error: 'ID supplied is invalid',
+    });
+  }
+
+  client
+    .query('SELECT * from requests where ride_id = $1 AND id = $2', [rideId, requestId])
+    .then((resp) => {
+      if (resp.rowCount === 0) {
+        res.status(404).send({
+          success: false,
+          error: 'The specified request does not exist.',
+        });
+      } else if (resp.rows[0].user_id === req.userId) {
+        client
+          .query(
+            'UPDATE requests SET status = $1 WHERE id = $2 RETURNING *',
+            [status, requestId],
+          )
+          .then((data) => {
+            res.status(201).send({
+              success: true,
+              data: data.rows[0],
+            });
+          })
+          .catch(() => {
+            res.status(500).send({
+              success: false,
+              error: 'An error occured when responding to ride offer request.',
+            });
+          });
+      } else {
+        res.status(400).send({
+          success: true,
+          error: 'You are not permitted to respond to this request.',
+        });
+      }
+    })
+    .catch(() => {
+      res.status(500).send({
+        success: false,
+        error: 'An unexpected error occurred.',
+      });
+    });
 };
 
 export {
