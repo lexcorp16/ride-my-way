@@ -5,18 +5,18 @@ const verifyLogin = (req, res, next) => {
 
   if (!token) {
     return res.status(403).send({
-      success: false,
+      status: 'error',
       authenticated: false,
-      error: 'You need to login to access this route.',
+      message: 'You need to login to access this route.',
     });
   }
 
   jwt.verify(token, process.env.JWTSECRET, (err, decoded) => {
     if (err) {
       return res.status(500).send({
-        success: false,
+        status: 'error',
         authenticated: false,
-        error: 'Failed to authenticate token. Please try to login again.',
+        message: 'Failed to authenticate token. Please try to login again.',
       });
     }
 

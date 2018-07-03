@@ -82,6 +82,41 @@ describe('API tests', () => {
       });
   });
 
+  it('Returns a 403 if token is missing', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        vehicleCapacity: 5,
+        destination: 'Toronto',
+        departureTime: '10:30 PM',
+        pointOfDeparture: 'Ontario',
+        departureDate: '02/02/2018',
+      })
+      .expect(403)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('You need to login to access this route.');
+        done();
+      });
+  });
+
+  it('Returns a 403 if token is invalid', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        vehicleCapacity: 5,
+        destination: 'Toronto',
+        departureTime: '10:30 PM',
+        pointOfDeparture: 'Ontario',
+        departureDate: '02/02/2018',
+      })
+      .set('x-access-token', 'crappy token')
+      .expect(403)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Failed to authenticate token. Please try to login again.');
+        done();
+      });
+  });
+
   it('Returns a 400 if a feild is missing when creating a ride offer', (done) => {
     request(app)
       .post('/api/v1/users/rides')
@@ -94,7 +129,7 @@ describe('API tests', () => {
       .set('x-access-token', token)
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.equal('A Required field is missing.');
+        expect(res.body.message).to.equal('A Required field is missing.');
         done();
       });
   });
@@ -128,7 +163,7 @@ describe('API tests', () => {
       .set('x-access-token', token)
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.equal('ID supplied is invalid');
+        expect(res.body.message).to.equal('ID supplied is invalid');
         done();
       });
   });
@@ -151,7 +186,7 @@ describe('API tests', () => {
       .set('x-access-token', token)
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.equal('ID supplied is invalid');
+        expect(res.body.message).to.equal('ID supplied is invalid');
         done();
       });
   });
@@ -186,7 +221,7 @@ describe('API tests', () => {
       .send({ status: 'crapp' })
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.equal('status field supplied is invalid. Please supply "acepted" or "rejected"');
+        expect(res.body.message).to.equal('status field supplied is invalid. Please supply "acepted" or "rejected"');
         done();
       });
   });
@@ -205,7 +240,7 @@ describe('API tests', () => {
       .send({ status: 'accepted' })
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.equal('You are not permitted to respond to this request.');
+        expect(res.body.message).to.equal('You are not permitted to respond to this request.');
         done();
       });
   });
@@ -217,7 +252,19 @@ describe('API tests', () => {
       .send({ status: 'accepted' })
       .expect(404)
       .end((err, res) => {
-        expect(res.body.error).to.equal('The specified request does not exist.');
+        expect(res.body.message).to.equal('The specified request does not exist.');
+        done();
+      });
+  });
+
+  it('Returns a 400 if id is invalid when trying to respond to a ride offer', (done) => {
+    request(app)
+      .put('/api/v1/users/rides/2332442/requests/2553636773')
+      .set('x-access-token', token)
+      .send({ status: 'accepted' })
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('ID supplied is invalid');
         done();
       });
   });

@@ -10,32 +10,33 @@ const getAllRides = (req, res) => {
   if (destination && startingPoint) {
     client
       .query('SELECT * from ride_offers WHERE destination = $1 AND point_of_departure = $2', [destination, startingPoint])
-      .then((resp) => {
+      .then((rides) => {
         res.status(200).send({
-          success: true,
-          data: resp.rows,
-          message: `${resp.rowCount} Rides round`,
+          status: 'success',
+          data: rides.rows,
+          message: `${rides.rowCount} Rides round`,
         });
       })
       .catch(() => {
         res.status(500).send({
-          success: false,
-          error: 'An error occurred fetching ride offers.',
+          status: 'error',
+          message: 'An error occurred fetching ride offers.',
         });
       });
   }
   client
     .query('SELECT * from ride_offers')
-    .then((resp) => {
+    .then((rides) => {
       res.status(200).send({
-        success: true,
-        data: resp.rows,
+        status: 'success',
+        data: rides.rows,
+        message: `${rides.rowCount} Ride(s) found`,
       });
     })
     .catch(() => {
       res.status(500).send({
-        success: false,
-        error: 'An error occurred fetching ride offers.',
+        status: 'error',
+        message: 'An error occurred fetching ride offers.',
       });
     });
 };
@@ -45,29 +46,30 @@ const getOneRide = (req, res) => {
 
   if (!uuidRegex.test(rideId)) {
     return res.status(400).send({
-      success: false,
-      error: 'ID supplied is invalid',
+      status: 'error',
+      message: 'ID supplied is invalid',
     });
   }
 
   client
     .query('SELECT * from ride_offers WHERE id = $1', [rideId])
-    .then((resp) => {
-      if (resp.rowCount === 0) {
+    .then((ride) => {
+      if (ride.rowCount === 0) {
         return res.status(404).send({
-          success: false,
-          error: 'Ride offer with that id does not exist.',
+          status: 'error',
+          message: 'Ride offer with that id does not exist.',
         });
       }
       res.status(200).send({
-        success: true,
-        data: resp.rows[0],
+        status: 'success',
+        data: ride.rows[0],
+        message: 'Specified ride offer found.',
       });
     })
     .catch(() => {
       res.status(500).send({
-        success: false,
-        error: 'An error occurred fetching details of ride offer.',
+        status: 'error',
+        message: 'An error occurred fetching details of ride offer.',
       });
     });
 };
@@ -89,8 +91,8 @@ const createRideOffer = (req, res) => {
     !departureDate
   ) {
     return res.status(400).send({
-      success: false,
-      error: 'A Required field is missing.',
+      status: 'failed',
+      message: 'A Required field is missing.',
     });
   }
 
@@ -109,14 +111,15 @@ const createRideOffer = (req, res) => {
     )
     .then((resp) => {
       res.status(201).send({
-        success: true,
+        status: 'success',
         data: resp.rows[0],
+        message: 'Ride offer successfully created.',
       });
     })
     .catch(() => {
       res
         .status(500)
-        .send({ success: false, error: 'An error occurred when creating ride offer.' });
+        .send({ status: 'error', message: 'An error occurred when creating ride offer.' });
     });
 };
 
@@ -125,18 +128,18 @@ const joinRide = (req, res) => {
 
   if (!uuidRegex.test(rideId)) {
     return res.status(400).send({
-      success: false,
-      error: 'ID supplied is invalid',
+      status: 'failed',
+      message: 'ID supplied is invalid',
     });
   }
 
   client
     .query('SELECT * FROM ride_offers WHERE id = $1', [rideId])
-    .then((resp) => {
-      if (resp.rowCount === 0) {
+    .then((ride) => {
+      if (ride.rowCount === 0) {
         return res.status(404).send({
-          success: false,
-          error: 'A ride with that ID does not exist',
+          status: 'failed',
+          message: 'A ride with that ID does not exist',
         });
       }
       client
@@ -146,21 +149,22 @@ const joinRide = (req, res) => {
         )
         .then((data) => {
           res.status(201).send({
-            success: true,
+            status: 'success',
             data: data.rows[0],
+            message: 'Joined ride successfully',
           });
         })
         .catch(() => {
           res.status(500).send({
-            success: false,
-            error: 'An error occurred when trying to make a request to a ride offer.',
+            status: 'error',
+            message: 'An error occurred when trying to make a request to a ride offer.',
           });
         });
     })
     .catch(() => {
       res
         .status(500)
-        .send({ success: false, error: 'An unexpected error occured.' });
+        .send({ status: 'error', message: 'An unexpected error occured.' });
     });
 };
 
@@ -169,23 +173,24 @@ const getOfferRequests = (req, res) => {
 
   if (!uuidRegex.test(rideId)) {
     return res.status(400).send({
-      success: false,
-      error: 'ID supplied is invalid',
+      status: 'failed',
+      message: 'ID supplied is invalid',
     });
   }
 
   client
     .query('SELECT * from requests where ride_id = $1', [rideId])
-    .then((resp) => {
+    .then((request) => {
       res.status(200).send({
-        success: true,
-        data: resp.rows,
+        status: 'success',
+        data: request.rows,
+        message: `${request.rowCount} offer requests found`,
       });
     })
     .catch(() => {
       res.status(500).send({
-        success: false,
-        error: 'An error occurred fetching requests.',
+        status: 'error',
+        message: 'An error occurred fetching requests.',
       });
     });
 };
@@ -198,55 +203,56 @@ const respondToRideRequest = (req, res) => {
 
   if (!validStatus.includes(status.toLowerCase())) {
     return res.status(400).send({
-      success: false,
-      error: 'status field supplied is invalid. Please supply "acepted" or "rejected"',
+      status: 'failed',
+      message: 'status field supplied is invalid. Please supply "acepted" or "rejected"',
     });
   }
 
-  if (!uuidRegex.test(rideId) || !uuidRegex.test(rideId)) {
+  if (!uuidRegex.test(rideId) || !uuidRegex.test(requestId)) {
     return res.status(400).send({
-      success: false,
-      error: 'ID supplied is invalid',
+      status: 'failed',
+      message: 'ID supplied is invalid',
     });
   }
 
   client
     .query('SELECT * from requests where ride_id = $1 AND id = $2', [rideId, requestId])
-    .then((resp) => {
-      if (resp.rowCount === 0) {
+    .then((request) => {
+      if (request.rowCount === 0) {
         res.status(404).send({
-          success: false,
-          error: 'The specified request does not exist.',
+          status: 'failed',
+          message: 'The specified request does not exist.',
         });
-      } else if (resp.rows[0].user_id === req.userId) {
+      } else if (request.rows[0].user_id === req.userId) {
         client
           .query(
             'UPDATE requests SET status = $1 WHERE id = $2 RETURNING *',
             [status, requestId],
           )
           .then((data) => {
-            res.status(201).send({
-              success: true,
+            res.status(200).send({
+              status: 'success',
               data: data.rows[0],
+              message: 'Successfully responded to ride offer request.'
             });
           })
           .catch(() => {
             res.status(500).send({
-              success: false,
-              error: 'An error occured when responding to ride offer request.',
+              status: 'error',
+              message: 'An error occured when responding to ride offer request.',
             });
           });
       } else {
         res.status(400).send({
-          success: true,
-          error: 'You are not permitted to respond to this request.',
+          status: 'error',
+          message: 'You are not permitted to respond to this request.',
         });
       }
     })
     .catch(() => {
       res.status(500).send({
-        success: false,
-        error: 'An unexpected error occurred.',
+        status: 'error',
+        message: 'An unexpected error occurred.',
       });
     });
 };
