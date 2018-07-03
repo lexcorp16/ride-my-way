@@ -1,19 +1,14 @@
 import express from 'express';
 
 import * as rideController from '../controllers/ride-offers';
+import verifyLogin from '../middlewares/verifyLogin';
 
 const router = express.Router();
 
-router.get('/', rideController.getAllRides);
+router.get('/', verifyLogin, rideController.getAllRides);
 
-router.get('/:rideId', rideController.getOneRide);
+router.get('/:rideId', verifyLogin, rideController.getOneRide);
 
-router.get('/:rideId/requests', rideController.getOfferRequests);
-
-router.post('/', rideController.createRideOffer);
-
-router.post('/:rideId/requests', rideController.joinRide);
-
-router.post('/:rideId/requests/:requestId', rideController.respondToRideRequest);
+router.post('/:rideId/requests', verifyLogin, rideController.joinRide);
 
 export default router;

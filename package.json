@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --fix",
+    "create:testenum": "cross-env NODE_ENV=test npm run create:enums",
     "start": "npm run build && node dist/index.js",
     "create:usertable": "babel-node ./models/createUserTable.js --presets env",
+    "create:ridestable": "babel-node ./models/createRidesTable.js --presets env",
+    "create:enums": "babel-node ./models/createEnums.js --presets env",
+    "create:requeststable": "babel-node ./models/createRequestsTable.js --presets env",
     "dev": "nodemon index.js --exec babel-node",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --require babel-core/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",

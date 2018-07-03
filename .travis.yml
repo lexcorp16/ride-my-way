@@ -7,6 +7,7 @@ env:
     - JWTSECRET=myjwtsecret
 before_script:
   - npm install -g nyc
+  - npm run create:testenum
   - psql -c 'create database ride_my_way_test;' -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
