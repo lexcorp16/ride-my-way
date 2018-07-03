@@ -10,7 +10,7 @@ import app from '../index';
 const { expect } = chai;
 
 describe('Authentication tests', () => {
-  before(() => client.query('CREATE TABLE users(id UUID PRIMARY KEY, full_name VARCHAR(100) not null, phone_number VARCHAR(14) not null, email VARCHAR(40) not null unique, password VARCHAR(255) not null)'));
+  before(() => client.query('CREATE TABLE users(id UUID PRIMARY KEY, full_name VARCHAR(100) not null, phone_number VARCHAR(14) not null, email VARCHAR(40) not null unique, password VARCHAR(255) not null, created_at timestamp with time zone not null, updated_at timestamp with time zone not null)'));
 
   after(() => client.query('DROP TABLE users'));
 
@@ -23,7 +23,7 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/signup')
+      .post('/api/v1/auth/signup')
       .send({
         email: userDetails.email,
         password: userDetails.password,
@@ -32,9 +32,31 @@ describe('Authentication tests', () => {
       })
       .expect(201)
       .end((err, res) => {
-        expect(res.body.authenticated).to.be.true;
         expect(res.body.user.email).to.contain('awesomeemail@gmail.com');
         expect(res.body.user.fullName).to.contain('Tosin Ambode');
+        done();
+      });
+  });
+
+  it('Returns a 409 if user already exists when signing in', (done) => {
+    const userDetails = {
+      email: 'awesomeemail@gmail.com',
+      password: 'supersecret',
+      fullName: 'Tosin Ambode',
+      phoneNumber: '08023562717',
+    };
+
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send({
+        email: userDetails.email,
+        password: userDetails.password,
+        fullName: userDetails.fullName,
+        phoneNumber: userDetails.phoneNumber,
+      })
+      .expect(409)
+      .end((err, res) => {
+        expect(res.body.message).to.contain('A user with that email already exists.');
         done();
       });
   });
@@ -48,7 +70,7 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/signup')
+      .post('/api/v1/auth/signup')
       .send({
         email: userDetails.email,
         password: userDetails.password,
@@ -57,7 +79,7 @@ describe('Authentication tests', () => {
       })
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.contain('Email is invalid.');
+        expect(res.body.message).to.contain('Email is invalid.');
         done();
       });
   });
@@ -71,7 +93,7 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/signup')
+      .post('/api/v1/auth/signup')
       .send({
         email: userDetails.email,
         password: userDetails.password,
@@ -80,7 +102,7 @@ describe('Authentication tests', () => {
       })
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.contain('Phone Number is not valid.');
+        expect(res.body.message).to.contain('Phone Number is not valid.');
         done();
       });
   });
@@ -91,12 +113,11 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/signup')
+      .post('/api/v1/auth/signup')
       .send({ password: userDetails.password })
       .expect(400)
       .end((err, res) => {
-        expect(res.statusCode).to.equal(400);
-        expect(res.body.error).to.contain('A required field is missing.');
+        expect(res.body.message).to.contain('A required field is missing.');
         done();
       });
   });
@@ -108,14 +129,13 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/login')
+      .post('/api/v1/auth/login')
       .send({
         email: userDetails.email,
         password: userDetails.password,
       })
       .expect(200)
       .end((err, res) => {
-        expect(res.body.authenticated).to.be.true;
         expect(res.body.token).to.not.be.null;
         expect(res.body.user.email).to.contain('awesomeemail@gmail.com');
         done();
@@ -129,16 +149,15 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/login')
+      .post('/api/v1/auth/login')
       .send({
         email: userDetails.email,
         password: userDetails.password,
       })
       .expect(401)
       .end((err, res) => {
-        expect(res.body.authenticated).to.be.false;
         expect(res.body.token).to.be.null;
-        expect(res.body.error).to.contain('Email or Password is incorrect.');
+        expect(res.body.message).to.contain('Email or Password is incorrect.');
         done();
       });
   });
@@ -150,14 +169,14 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/login')
+      .post('/api/v1/auth/login')
       .send({
         email: userDetails.email,
         password: userDetails.password,
       })
       .expect(404)
       .end((err, res) => {
-        expect(res.body.error).to.contain('No user exists with that email.');
+        expect(res.body.message).to.contain('No user exists with that email.');
         done();
       });
   });
@@ -168,11 +187,11 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/login')
+      .post('/api/v1/auth/login')
       .send({ email: userDetails.email })
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.contain('Email or Password not provided.');
+        expect(res.body.message).to.contain('Email or Password not provided.');
         done();
       });
   });
@@ -184,14 +203,14 @@ describe('Authentication tests', () => {
     };
 
     request(app)
-      .post('/auth/login')
+      .post('/api/v1/auth/login')
       .send({
         email: userDetails.email,
         password: userDetails.password,
       })
       .expect(400)
       .end((err, res) => {
-        expect(res.body.error).to.contain('Email is invalid.');
+        expect(res.body.message).to.contain('Email is invalid.');
         done();
       });
   });

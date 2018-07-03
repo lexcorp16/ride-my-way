@@ -20,15 +20,18 @@ const validateSignUpData = (req, res, next) => {
 
   if (!email || !password || !phoneNumber || !fullName) {
     return res.status(400).send({
-      error: 'A required field is missing.',
+      status: 'failed',
+      message: 'A required field is missing.',
     });
   } else if (!emailRegex.test(email)) {
     return res.status(400).send({
-      error: 'Email is invalid.',
+      status: 'falied',
+      message: 'Email is invalid.',
     });
   } else if (validateNigerianNumber(phoneNumber) !== null) {
     return res.status(400).send({
-      error: validateNigerianNumber(phoneNumber),
+      status: 'failed',
+      message: validateNigerianNumber(phoneNumber),
     });
   }
 
@@ -43,11 +46,13 @@ const validateLoginData = (req, res, next) => {
 
   if (!email || !password) {
     return res.status(400).send({
-      error: 'Email or Password not provided.',
+      status: 'failed',
+      message: 'Email or Password not provided.',
     });
   } else if (!emailRegex.test(email)) {
     return res.status(400).send({
-      error: 'Email is invalid.',
+      status: 'failed',
+      message: 'Email is invalid.',
     });
   }
 
