@@ -107,6 +107,52 @@ describe('Authentication tests', () => {
       });
   });
 
+  it('Returns a 400 if the phone number is badly formatted with "+234" when signing up', (done) => {
+    const userDetails = {
+      email: 'newuser@gmail.com',
+      password: 'supersecret',
+      fullName: 'Tosin Ambode',
+      phoneNumber: '+23408033882972',
+    };
+
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send({
+        email: userDetails.email,
+        password: userDetails.password,
+        fullName: userDetails.fullName,
+        phoneNumber: userDetails.phoneNumber,
+      })
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.contain('Phone Number must be 14 digits.');
+        done();
+      });
+  });
+
+  it('Returns a 400 if the phone number is badly formatted without "+234" when signing up', (done) => {
+    const userDetails = {
+      email: 'newuser@gmail.com',
+      password: 'supersecret',
+      fullName: 'Tosin Ambode',
+      phoneNumber: '0803388297',
+    };
+
+    request(app)
+      .post('/api/v1/auth/signup')
+      .send({
+        email: userDetails.email,
+        password: userDetails.password,
+        fullName: userDetails.fullName,
+        phoneNumber: userDetails.phoneNumber,
+      })
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.contain('Phone Number must be 11 digits.');
+        done();
+      });
+  });
+
   it('Returns a 400 if the email is missing when signing up', (done) => {
     const userDetails = {
       password: 'supersecret',

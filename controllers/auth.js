@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 import client from '../models/db';
+import cleanData from '../services/utils';
 
 const uuid = require('uuid/v1');
 
@@ -28,7 +29,7 @@ const createUser = (req, res) => {
     client
       .query('INSERT INTO users(id, full_name, phone_number, email, password, created_at, updated_at) values($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *', [
         uuid(),
-        fullName,
+        cleanData(fullName),
         phoneNumber,
         email,
         hashedPassword,
