@@ -1,0 +1,642 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Ride My Way API Docs</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+.logo{
+  color: #ffffff;
+  padding-left: 5px;
+}
+    </style>
+    <link href="/doc-assets/stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="/doc-assets/stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="/doc-assets/javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;javascript&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="/doc-assets/images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <h1 class="logo">Ride My Way API</h1>
+        <div class="lang-selector">
+              <a href="#" data-language-name="javascript">javascript</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc" class="toc-list-h1">
+          <li>
+            <a href="#overview-ride-my-way-api" class="toc-h1 toc-link" data-title="Overview-ride-my-way-api">Overview -- Ride My Way API</a>
+          </li>
+          <li>
+            <a href="#making-api-requests" class="toc-h1 toc-link" data-title="Making-api-requests">Making API requests</a>
+          </li>
+          <li>
+            <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#user-signup" class="toc-h2 toc-link" data-title="User signup">User signup</a>
+                  </li>
+                  <li>
+                    <a href="#user-login" class="toc-h2 toc-link" data-title="User login">User Login</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#ride-offers" class="toc-h1 toc-link" data-title="Ride offers">Ride Offers</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-ride-offers" class="toc-h2 toc-link" data-title="Get all ride offers">Get All ride offers</a>
+                  </li>
+                  <li>
+                    <a href="#get-one-ride-offer" class="toc-h2 toc-link" data-title="Get one ride offer">Get One Ride Offer</a>
+                  </li>
+                  <li>
+                    <a href="#request-to-join-ride-offer" class="toc-h2 toc-link" data-title="Request to join ride offer">Request to join ride offer</a>
+                  </li>
+                  <li>
+                    <a href="#create-ride-offer" class="toc-h2 toc-link" data-title="Create ride offer">Create Ride Offer</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-requests-to-a-ride-offer" class="toc-h2 toc-link" data-title="Get all requests to a ride offer">Get All Requests to a Ride Offer</a>
+                  </li>
+                  <li>
+                    <a href="#respond-to-a-ride-offer-request" class="toc-h2 toc-link" data-title="Respond to a ride offer request">Respond to a Ride Offer Request</a>
+                  </li>
+                  <li>
+                    <a href="#delete-ride-offer" class="toc-h2 toc-link" data-title="Delete ride offer">Delete Ride Offer</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="errors">Errors</a>
+          </li>
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='overview-ride-my-way-api'>Overview -- Ride My Way API</h1>
+<p>Welcome to the Ride My Way API documentation. This is the API used by the Ride My Way web interface.</p>
+
+<p>This API powers the Ride My Way app. A carpooling application that allows users create ride offers and join ride offers created by other users.</p>
+
+<p><code>BASE API URL:</code> <code>https://ride-my-way-app.herokuapp.com/api/v1/</code></p>
+<h1 id='making-api-requests'>Making API requests</h1>
+<p>An authorization token is required to access all endpoints except the signup and Login endpoints. Use the login/signup endpoint to get a token</p>
+
+<p>A token generated expires 24 hours after it has being generated.</p>
+
+<p>Use the token in the <code>x-access-token</code> field in <code>req.headers</code></p>
+
+<p><code>x-access-token: averylongrandom.jsonwebtokenstring.requiredforauthentication</code></p>
+
+<aside class="notice">
+You must replace <code>averylongrandom.jsonwebtokenstring.requiredforauthentication</code> with your personal token generated after authenticating.
+</aside>
+<h1 id='users'>Users</h1><h2 id='user-signup'>User signup</h2>
+<p>Creates a new user</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"fullName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fasoro Alex"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"phoneNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08124474308"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"afash@gmail.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You are successfully registered."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w">
+    </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmOTVlNmQwLTdlZGUtMTFlOC1iODJmLWIzOTI5NTMzOWM0MSIsImlhdCI6MTUzMDYzNTQ3MiwiZXhwIjoxNTMwNzIxODcyfQ.VqSVMSE6PQ9merUF8gjDk0nWi3Flcy5toKUSV5lq11w"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7f95e6d0-7ede-11e8-b82f-b39295339c41"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"afash@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fullName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fasoro Alex"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"phoneNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08124774308"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-03T16:31:12.319Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-03T16:31:12.319Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>/auth/signup</code></li>
+<li>Verb: <code>POST</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h3 id='http-response'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>201 - created</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h2 id='user-login'>User Login</h2>
+<p>Logs in an existing user</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"afash@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You are successfully login."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w">
+    </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmOTVlNmQwLTdlZGUtMTFlOC1iODJmLWIzOTI5NTMzOWM0MSIsImlhdCI6MTUzMDYzNTYzNCwiZXhwIjoxNTMwNzIyMDM0fQ.eMFI6Uiue5QtMMHZaNV7iI7jQsmoXJUhW2bJ8nO-CRg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7f95e6d0-7ede-11e8-b82f-b39295339c41"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"afash@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"fullName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fasoro Alex"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"phoneNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08124774308"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-03T16:31:12.319Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-03T16:31:12.319Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request-2'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>/auth/login</code></li>
+<li>Verb: <code>POST</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h3 id='http-response-2'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>200 - OK</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h1 id='ride-offers'>Ride Offers</h1><h2 id='get-all-ride-offers'>Get All ride offers</h2>
+<p>Get all ride offers</p>
+
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0dd56271-bb7c-4386-aebb-b44534701c7e"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322b6710-7ed1-11e8-9616-c9c7fe1f2563"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ibafo"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"point_of_departure"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Agbara"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"vehicle_capacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"departure_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10:20:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"departure_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-05T00:00:00.000Z"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 Ride(s) found"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request-3'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>/rides</code></li>
+<li>Verb: <code>GET</code></li>
+</ul>
+<h3 id='http-response-3'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>200 - OK</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>destination &amp; starting point</td>
+<td>Get all ride offers starting from a <code>startingPoint</code> and heading to a <code>destination</code>.</td>
+</tr>
+</tbody></table>
+<h2 id='get-one-ride-offer'>Get One Ride Offer</h2>
+<p>Get one ride offer</p>
+
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0dd56271-bb7c-4386-aebb-b44534701c7e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322b6710-7ed1-11e8-9616-c9c7fe1f2563"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ibafo"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"point_of_departure"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Agbara"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"vehicle_capacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"departure_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10:20:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"departure_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-12-05T00:00:00.000Z"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Specified ride offer found."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request-4'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>/rides/:rideId</code></li>
+<li>Verb: <code>GET</code></li>
+</ul>
+<h3 id='http-response-4'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>200 - OK</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h2 id='request-to-join-ride-offer'>Request to join ride offer</h2>
+<p>Make a request to join a ride offer</p>
+
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ca98ccdd-d9fa-4d97-ba40-3dbb30d707c5"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ride_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75b839ea-1207-46dd-a608-4105734f574a"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322b6710-7ed1-11e8-9616-c9c7fe1f2563"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Joined ride successfully"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request-5'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>/:rideId/requests</code></li>
+<li>Verb: <code>POST</code></li>
+</ul>
+<h3 id='http-response-5'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>200 - OK</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h2 id='create-ride-offer'>Create Ride Offer</h2>
+<p>Create ride offer</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Abuja"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"pointOfDeparture"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nassarawa"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"vehicleCapacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"departureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11:20:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"departureDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10/07/2018"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75b839ea-1207-46dd-a608-4105734f574a"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322b6710-7ed1-11e8-9616-c9c7fe1f2563"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Abuja"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"point_of_departure"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nassarawa"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"vehicle_capacity"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"departure_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11:20:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"departure_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-07T00:00:00.000Z"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ride offer successfully created."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request-6'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>users/rides</code></li>
+<li>Verb: <code>POST</code></li>
+</ul>
+<h3 id='http-response-6'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>201: Created</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h2 id='get-all-requests-to-a-ride-offer'>Get All Requests to a Ride Offer</h2>
+<p>Get all requests for a ride offer</p>
+
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ca98ccdd-d9fa-4d97-ba40-3dbb30d707c5"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ride_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75b839ea-1207-46dd-a608-4105734f574a"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322b6710-7ed1-11e8-9616-c9c7fe1f2563"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fasoro Alex"</span><span class="w"></span>
+      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 offer requests found"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request-7'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>users/rides/:rideId/requests</code></li>
+<li>Verb: <code>GET</code></li>
+</ul>
+<h3 id='http-response-7'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>200: OK</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h2 id='respond-to-a-ride-offer-request'>Respond to a Ride Offer Request</h2>
+<p>Respond to a ride offer request</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accepted"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ca98ccdd-d9fa-4d97-ba40-3dbb30d707c5"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ride_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75b839ea-1207-46dd-a608-4105734f574a"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322b6710-7ed1-11e8-9616-c9c7fe1f2563"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fasoro Alex"</span><span class="w">
+      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"accepted"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successfully responded to ride offer request."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request-8'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>users/rides/:rideId/requests/:requestId</code></li>
+<li>Verb: <code>PUT</code></li>
+<li>Possible values: <code>accepted</code> or <code>rejected</code></li>
+</ul>
+<h3 id='http-response-8'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>200: OK</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h2 id='delete-ride-offer'>Delete Ride Offer</h2>
+<p>Delete a ride offer</p>
+
+<blockquote>
+<p>Response Body:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$1 Ride Offer(s) deleted successfully."</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='http-request-9'>HTTP Request</h3>
+<ul>
+<li>Endpoint: <code>users/rides/:rideId</code></li>
+<li>Verb: <code>DELETE</code></li>
+</ul>
+<h3 id='http-response-9'>HTTP Response</h3>
+<ul>
+<li>Status code: <code>200: OK</code></li>
+<li>Body: <code>(application/json)</code></li>
+</ul>
+<h1 id='errors'>Errors</h1>
+<p>The Ride My Way API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found.</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict.</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="javascript">javascript</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
