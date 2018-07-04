@@ -93,7 +93,7 @@ const createRideOffer = (req, res) => {
   ) {
     return res.status(400).send({
       status: 'failed',
-      message: 'A Required field is missing.',
+      message: 'One of the following fields is missing "destination", "vehicleCapacity", "departureTime", "pointOfDeparture", "departureDate".',
     });
   }
 
@@ -142,6 +142,11 @@ const joinRide = (req, res) => {
           status: 'failed',
           message: 'A ride with that ID does not exist',
         });
+      } else if (ride.rows[0].user_id === req.userId) {
+        return res.status(400).send({
+          status: 'failed',
+          message: 'You cannot join a ride offer you have created.',
+        });
       }
       client.query('SELECT * from users WHERE id = $1', [req.userId]).then((user) => {
         client
@@ -185,21 +190,35 @@ const getOfferRequests = (req, res) => {
     });
   }
 
-  client
-    .query('SELECT * from requests where ride_id = $1', [rideId])
-    .then((request) => {
-      res.status(200).send({
-        status: 'success',
-        data: request.rows,
-        message: `${request.rowCount} offer request(s) found`,
+  client.query('SELECT * from ride_offers WHERE id = $1', [rideId]).then((ride) => {
+    if (ride.rows[0].user_id !== req.userId) {
+      return res.status(400).send({
+        status: 'failed',
+        message: 'You cannot view requests for ride offers created by others.',
       });
-    })
-    .catch(() => {
-      res.status(500).send({
-        status: 'error',
-        message: 'An error occurred fetching requests.',
+    }
+
+    client
+      .query('SELECT * from requests where ride_id = $1', [rideId])
+      .then((request) => {
+        res.status(200).send({
+          status: 'success',
+          data: request.rows,
+          message: `${request.rowCount} offer request(s) found`,
+        });
+      })
+      .catch(() => {
+        res.status(500).send({
+          status: 'error',
+          message: 'An error occurred fetching requests.',
+        });
       });
+  }).catch(() => {
+    res.status(500).send({
+      status: 'error',
+      message: 'An unexpected error occured.',
     });
+  });
 };
 
 const respondToRideRequest = (req, res) => {
@@ -207,6 +226,13 @@ const respondToRideRequest = (req, res) => {
   const { rideId, requestId } = req.params;
 
   const validStatus = ['accepted', 'rejected'];
+
+  if (!status) {
+    return res.status(400).send({
+      status: 'failed',
+      message: 'status field is missing. Please supply "acepted" or "rejected"',
+    });
+  }
 
   if (!validStatus.includes(status.toLowerCase())) {
     return res.status(400).send({
@@ -240,7 +266,7 @@ const respondToRideRequest = (req, res) => {
             res.status(200).send({
               status: 'success',
               data: data.rows[0],
-              message: 'Successfully responded to ride offer request.'
+              message: 'Successfully responded to ride offer request.',
             });
           })
           .catch(() => {

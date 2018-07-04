@@ -163,7 +163,7 @@ describe('Authentication tests', () => {
       .send({ password: userDetails.password })
       .expect(400)
       .end((err, res) => {
-        expect(res.body.message).to.contain('A required field is missing.');
+        expect(res.body.message).to.contain('One of the following fields is missing, "email", "password", "phoneNumber", "fullName".');
         done();
       });
   });

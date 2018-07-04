@@ -12,7 +12,7 @@ const verifyLogin = (req, res, next) => {
 
   jwt.verify(token, process.env.JWTSECRET, (err, decoded) => {
     if (err) {
-      return res.status(500).send({
+      return res.status(401).send({
         status: 'error',
         message: 'Failed to authenticate token. Please try to login again.',
       });
