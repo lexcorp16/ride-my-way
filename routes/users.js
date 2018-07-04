@@ -2,10 +2,11 @@ import express from 'express';
 
 import * as rideController from '../controllers/ride-offers';
 import verifyLogin from '../middlewares/verifyLogin';
+import validateDateTime from '../middlewares/validateDateTime';
 
 const router = express.Router();
 
-router.post('/rides', verifyLogin, rideController.createRideOffer);
+router.post('/rides', verifyLogin, validateDateTime, rideController.createRideOffer);
 
 router.delete('/rides/:rideId', verifyLogin, rideController.deleteRideOffer);
 

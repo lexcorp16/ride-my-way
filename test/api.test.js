@@ -70,7 +70,7 @@ describe('API tests', () => {
       .send({
         vehicleCapacity: 5,
         destination: 'Toronto',
-        departureTime: '10:30 PM',
+        departureTime: '10:30',
         pointOfDeparture: 'Ontario',
         departureDate: '02/02/2018',
       })
@@ -123,7 +123,7 @@ describe('API tests', () => {
       .post('/api/v1/users/rides')
       .send({
         destination: 'Toronto',
-        departureTime: '10:30 PM',
+        departureTime: '10:30',
         pointOfDeparture: 'Ontario',
         departureDate: '02/02/2018',
       })
@@ -131,6 +131,40 @@ describe('API tests', () => {
       .expect(400)
       .end((err, res) => {
         expect(res.body.message).to.equal('One of the following fields is missing "destination", "vehicleCapacity", "departureTime", "pointOfDeparture", "departureDate".');
+        done();
+      });
+  });
+
+  it('Returns a 400 if time is invalid when creating a ride offer', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        destination: 'Toronto',
+        departureTime: 'bad time',
+        pointOfDeparture: 'Ontario',
+        departureDate: '02/02/2018',
+      })
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Please enter a time in this format hh:mm');
+        done();
+      });
+  });
+
+  it('Returns a 400 if date is invalid when creating a ride offer', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        destination: 'Toronto',
+        departureTime: '10:30',
+        pointOfDeparture: 'Ontario',
+        departureDate: 'bad date',
+      })
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Please enter a date in this format dd/mm/yyyy');
         done();
       });
   });
