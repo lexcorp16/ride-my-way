@@ -6,7 +6,6 @@ const verifyLogin = (req, res, next) => {
   if (!token) {
     return res.status(403).send({
       status: 'error',
-      authenticated: false,
       message: 'You need to login to access this route.',
     });
   }
@@ -15,7 +14,6 @@ const verifyLogin = (req, res, next) => {
     if (err) {
       return res.status(500).send({
         status: 'error',
-        authenticated: false,
         message: 'Failed to authenticate token. Please try to login again.',
       });
     }

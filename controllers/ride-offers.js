@@ -31,7 +31,7 @@ const getAllRides = (req, res) => {
       res.status(200).send({
         status: 'success',
         data: rides.rows,
-        message: `${rides.rowCount} Ride(s) found`,
+        message: `${rides.rowCount} Ride Offer(s) found`,
       });
     })
     .catch(() => {
@@ -185,7 +185,7 @@ const getOfferRequests = (req, res) => {
       res.status(200).send({
         status: 'success',
         data: request.rows,
-        message: `${request.rowCount} offer requests found`,
+        message: `${request.rowCount} offer request(s) found`,
       });
     })
     .catch(() => {
@@ -258,6 +258,43 @@ const respondToRideRequest = (req, res) => {
     });
 };
 
+const deleteRideOffer = (req, res) => {
+  const { rideId } = req.params;
+
+  client
+    .query('SELECT * FROM ride_offers WHERE id = $1', [rideId])
+    .then((ride) => {
+      if (ride.rowCount === 0) {
+        return res.status(404).send({
+          status: 'failed',
+          message: 'A ride with that ID does not exist.',
+        });
+      } else if (ride.rows[0].user_id === req.userId) {
+        client.query('DELETE FROM ride_offers WHERE id = $1', [rideId]).then((deletedRide) => {
+          res.status(200).send({
+            status: 'success',
+            message: `${deletedRide.rowCount} Ride Offer(s) deleted successfully.`,
+          });
+        }).catch(() => {
+          res.status(500).send({
+            status: 'error',
+            message: 'An error occured deleting the ride offer.',
+          });
+        });
+      } else {
+        return res.status(400).send({
+          status: 'failed',
+          message: 'You are not permitted to delete this ride offer.',
+        });
+      }
+    }).catch(() => {
+      res.status(500).send({
+        status: 'error',
+        message: 'An unexpected error occurred.',
+      });
+    });
+};
+
 export {
   getAllRides,
   getOneRide,
@@ -265,4 +302,5 @@ export {
   joinRide,
   getOfferRequests,
   respondToRideRequest,
+  deleteRideOffer,
 };
