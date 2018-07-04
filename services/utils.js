@@ -1,9 +1,8 @@
-const checkParams = (rideId, sizeOfData, res) => {
-  if (rideId < 1 || rideId > sizeOfData) {
-    return res.status(404).send({
-      error: 'Out of bounds',
-    });
-  }
+const cleanData = (input) => {
+  const withoutNewlines = input.replace(/\r?\n|\r/g, '');
+  const withoutMultipleSpaces = withoutNewlines.replace(/ {1,}/g, ' ');
+
+  return withoutMultipleSpaces.trim();
 };
 
-export default checkParams;
+export default cleanData;

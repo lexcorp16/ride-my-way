@@ -1,4 +1,5 @@
 import client from '../models/db';
+import cleanData from '../services/utils';
 
 const uuid = require('uuid');
 
@@ -85,9 +86,9 @@ const createRideOffer = (req, res) => {
 
   if (
     !vehicleCapacity ||
-    !destination ||
+    !cleanData(destination) ||
     !departureTime ||
-    !pointOfDeparture ||
+    !cleanData(pointOfDeparture) ||
     !departureDate
   ) {
     return res.status(400).send({
