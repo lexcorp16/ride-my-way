@@ -203,6 +203,17 @@ describe('API tests', () => {
       });
   });
 
+  it('Returns a 404 if no ride is found when trying to get a ride offer', (done) => {
+    request(app)
+      .get('/api/v1/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf9')
+      .set('x-access-token', token)
+      .expect(404)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Ride offer with that id does not exist.');
+        done();
+      });
+  });
+
   it('Returns a 400 if a user tries to join a ride offer he has created', (done) => {
     request(app)
       .post('/api/v1/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests')

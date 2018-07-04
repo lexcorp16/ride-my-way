@@ -45,13 +45,6 @@ const getAllRides = (req, res) => {
 const getOneRide = (req, res) => {
   const { rideId } = req.params;
 
-  if (!uuidRegex.test(rideId)) {
-    return res.status(400).send({
-      status: 'error',
-      message: 'ID supplied is invalid',
-    });
-  }
-
   client
     .query('SELECT * from ride_offers WHERE id = $1', [rideId])
     .then((ride) => {
@@ -127,13 +120,6 @@ const createRideOffer = (req, res) => {
 const joinRide = (req, res) => {
   const { rideId } = req.params;
 
-  if (!uuidRegex.test(rideId)) {
-    return res.status(400).send({
-      status: 'failed',
-      message: 'ID supplied is invalid',
-    });
-  }
-
   client
     .query('SELECT * FROM ride_offers WHERE id = $1', [rideId])
     .then((ride) => {
@@ -182,13 +168,6 @@ const joinRide = (req, res) => {
 
 const getOfferRequests = (req, res) => {
   const { rideId } = req.params;
-
-  if (!uuidRegex.test(rideId)) {
-    return res.status(400).send({
-      status: 'failed',
-      message: 'ID supplied is invalid',
-    });
-  }
 
   client.query('SELECT * from ride_offers WHERE id = $1', [rideId]).then((ride) => {
     if (ride.rows[0].user_id !== req.userId) {
