@@ -15,7 +15,7 @@ dotenv.config();
 const setupDatabase = () =>
   client.query('CREATE TABLE IF NOT EXISTS users(id UUID PRIMARY KEY, full_name VARCHAR(100) not null, phone_number VARCHAR(14) not null, email VARCHAR(40) not null unique, password VARCHAR(255) not null)').then(() => {
     return client.query('CREATE TABLE ride_offers(id UUID PRIMARY KEY, user_id UUID REFERENCES users(id), destination VARCHAR(50) not null, point_of_departure VARCHAR(50) not null, vehicle_capacity SMALLINT not null, departure_time TIME not null, departure_date DATE not null)').then(() => {
-      return client.query("CREATE TABLE requests(id UUID PRIMARY KEY, ride_id UUID REFERENCES ride_offers(id), user_id UUID not null, status request_status DEFAULT 'pending')").then(() => {
+      return client.query("CREATE TABLE requests(id UUID PRIMARY KEY, ride_id UUID REFERENCES ride_offers(id) ON DELETE CASCADE, user_id UUID not null, status request_status DEFAULT 'pending')").then(() => {
         return client
           .query('INSERT INTO users(id, full_name, phone_number, email, password) values($1, $2, $3, $4, $5) RETURNING *', [
             '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
@@ -265,6 +265,45 @@ describe('API tests', () => {
       .expect(400)
       .end((err, res) => {
         expect(res.body.message).to.equal('ID supplied is invalid');
+        done();
+      });
+  });
+
+  it('Returns a 400 if ride offer does not exist when trying to delete a ride offer', (done) => {
+    request(app)
+      .delete('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf9')
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('A ride with that ID does not exist.');
+        done();
+      });
+  });
+
+  it('Returns a 400 if the wrong user tries to delete a ride offer', (done) => {
+    const unknownUsertoken = jwt.sign({
+      id: '93a38220-7d3e-11e8-a4a2-c79efef2daf8',
+    }, process.env.JWTSECRET, {
+      expiresIn: 86400,
+    });
+
+    request(app)
+      .delete('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8')
+      .set('x-access-token', unknownUsertoken)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('You are not permitted to delete this ride offer.');
+        done();
+      });
+  });
+
+  it('Deletes a  ride offer', (done) => {
+    request(app)
+      .delete('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8')
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('1 Ride Offer(s) deleted successfully.');
         done();
       });
   });

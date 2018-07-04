@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.post('/rides', verifyLogin, rideController.createRideOffer);
 
+router.delete('/rides/:rideId', verifyLogin, rideController.deleteRideOffer);
+
 router.get('/rides/:rideId/requests', verifyLogin, rideController.getOfferRequests);
 
 router.put('/rides/:rideId/requests/:requestId', verifyLogin, rideController.respondToRideRequest);
