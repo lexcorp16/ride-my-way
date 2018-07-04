@@ -15,7 +15,7 @@ dotenv.config();
 const setupDatabase = () =>
   client.query('CREATE TABLE IF NOT EXISTS users(id UUID PRIMARY KEY, full_name VARCHAR(100) not null, phone_number VARCHAR(14) not null, email VARCHAR(40) not null unique, password VARCHAR(255) not null)').then(() => {
     return client.query('CREATE TABLE ride_offers(id UUID PRIMARY KEY, user_id UUID REFERENCES users(id), destination VARCHAR(50) not null, point_of_departure VARCHAR(50) not null, vehicle_capacity SMALLINT not null, departure_time TIME not null, departure_date DATE not null)').then(() => {
-      return client.query("CREATE TABLE requests(id UUID PRIMARY KEY, ride_id UUID REFERENCES ride_offers(id) ON DELETE CASCADE, user_id UUID not null, status request_status DEFAULT 'pending')").then(() => {
+      return client.query("CREATE TABLE requests(id UUID PRIMARY KEY, ride_id UUID REFERENCES ride_offers(id) ON DELETE CASCADE, user_id UUID not null, name VARCHAR(100) not null, status request_status DEFAULT 'pending')").then(() => {
         return client
           .query('INSERT INTO users(id, full_name, phone_number, email, password) values($1, $2, $3, $4, $5) RETURNING *', [
             '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
@@ -39,11 +39,12 @@ const setupDatabase = () =>
               ).then(() => {
                 client
                   .query(
-                    'INSERT INTO requests(id, ride_id, user_id) values($1, $2, $3) RETURNING *',
+                    'INSERT INTO requests(id, ride_id, user_id, name) values($1, $2, $3, $4) RETURNING *',
                     [
                       '83a38220-7d3e-11e8-a4a2-c79efef2daf8',
                       '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
                       '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
+                      'Fashola Eniola',
                     ],
                   );
               });

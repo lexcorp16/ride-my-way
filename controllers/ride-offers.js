@@ -143,24 +143,30 @@ const joinRide = (req, res) => {
           message: 'A ride with that ID does not exist',
         });
       }
-      client
-        .query(
-          'INSERT INTO requests(id, ride_id, user_id) values($1, $2, $3) RETURNING *',
-          [uuid(), rideId, req.userId],
-        )
-        .then((data) => {
-          res.status(201).send({
-            status: 'success',
-            data: data.rows[0],
-            message: 'Joined ride successfully',
+      client.query('SELECT * from users WHERE id = $1', [req.userId]).then((user) => {
+        client
+          .query(
+            'INSERT INTO requests(id, ride_id, user_id, name) values($1, $2, $3, $4) RETURNING *',
+            [uuid(), rideId, req.userId, user.rows[0].full_name],
+          )
+          .then((data) => {
+            res.status(201).send({
+              status: 'success',
+              data: data.rows[0],
+              message: 'Joined ride successfully',
+            });
+          })
+          .catch(() => {
+            res.status(500).send({
+              status: 'error',
+              message: 'An error occurred when trying to make a request to a ride offer.',
+            });
           });
-        })
-        .catch(() => {
-          res.status(500).send({
-            status: 'error',
-            message: 'An error occurred when trying to make a request to a ride offer.',
-          });
-        });
+      }).catch(() => {
+        res
+          .status(500)
+          .send({ status: 'error', message: 'An unexpected error occured.' });
+      });
     })
     .catch(() => {
       res
