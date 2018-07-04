@@ -70,7 +70,7 @@ describe('API tests', () => {
       .send({
         vehicleCapacity: 5,
         destination: 'Toronto',
-        departureTime: '10:30 PM',
+        departureTime: '10:30',
         pointOfDeparture: 'Ontario',
         departureDate: '02/02/2018',
       })
@@ -123,14 +123,48 @@ describe('API tests', () => {
       .post('/api/v1/users/rides')
       .send({
         destination: 'Toronto',
-        departureTime: '10:30 PM',
+        departureTime: '10:30',
         pointOfDeparture: 'Ontario',
         departureDate: '02/02/2018',
       })
       .set('x-access-token', token)
       .expect(400)
       .end((err, res) => {
-        expect(res.body.message).to.equal('A Required field is missing.');
+        expect(res.body.message).to.equal('One of the following fields is missing "destination", "vehicleCapacity", "departureTime", "pointOfDeparture", "departureDate".');
+        done();
+      });
+  });
+
+  it('Returns a 400 if time is invalid when creating a ride offer', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        destination: 'Toronto',
+        departureTime: 'bad time',
+        pointOfDeparture: 'Ontario',
+        departureDate: '02/02/2018',
+      })
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Please enter a time in this format hh:mm');
+        done();
+      });
+  });
+
+  it('Returns a 400 if date is invalid when creating a ride offer', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        destination: 'Toronto',
+        departureTime: '10:30',
+        pointOfDeparture: 'Ontario',
+        departureDate: 'bad date',
+      })
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Please enter a date in this format dd/mm/yyyy');
         done();
       });
   });
@@ -169,14 +203,24 @@ describe('API tests', () => {
       });
   });
 
-  it('Makes a request to join a ride offer', (done) => {
+  it('Returns a 404 if no ride is found when trying to get a ride offer', (done) => {
+    request(app)
+      .get('/api/v1/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf9')
+      .set('x-access-token', token)
+      .expect(404)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Ride offer with that id does not exist.');
+        done();
+      });
+  });
+
+  it('Returns a 400 if a user tries to join a ride offer he has created', (done) => {
     request(app)
       .post('/api/v1/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests')
       .set('x-access-token', token)
       .expect(200)
       .end((err, res) => {
-        expect(res.body.data.ride_id).to.equal('73a38220-7d3e-11e8-a4a2-c79efef2daf8');
-        expect(res.body.data.status).to.equal('pending');
+        expect(res.body.message).to.equal('You cannot join a ride offer you have created.');
         done();
       });
   });
@@ -203,6 +247,23 @@ describe('API tests', () => {
       });
   });
 
+  it('Returns a 400 if the wrong user tries to view requests for a ride offer', (done) => {
+    const unknownUsertoken = jwt.sign({
+      id: '93a38220-7d3e-11e8-a4a2-c79efef2daf8',
+    }, process.env.JWTSECRET, {
+      expiresIn: 86400,
+    });
+
+    request(app)
+      .get('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests')
+      .set('x-access-token', unknownUsertoken)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('You cannot view requests for ride offers created by others.');
+        done();
+      });
+  });
+
   it('Can respond to a ride offer request', (done) => {
     request(app)
       .put('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests/83a38220-7d3e-11e8-a4a2-c79efef2daf8')
@@ -223,6 +284,17 @@ describe('API tests', () => {
       .expect(400)
       .end((err, res) => {
         expect(res.body.message).to.equal('status field supplied is invalid. Please supply "acepted" or "rejected"');
+        done();
+      });
+  });
+
+  it('Returns a 400 when status field is missing when trying to respond to a ride offer request', (done) => {
+    request(app)
+      .put('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests/83a38220-7d3e-11e8-a4a2-c79efef2daf8')
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('status field is missing. Please supply "acepted" or "rejected"');
         done();
       });
   });
