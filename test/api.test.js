@@ -17,22 +17,34 @@ const setupDatabase = () =>
     return client.query('CREATE TABLE ride_offers(id UUID PRIMARY KEY, user_id UUID REFERENCES users(id), destination VARCHAR(50) not null, point_of_departure VARCHAR(50) not null, vehicle_capacity SMALLINT not null, departure_time TIME not null, departure_date DATE not null)').then(() => {
       return client.query("CREATE TABLE requests(id UUID PRIMARY KEY, ride_id UUID REFERENCES ride_offers(id) ON DELETE CASCADE, user_id UUID not null, name VARCHAR(100) not null, status request_status DEFAULT 'pending')").then(() => {
         return client
-          .query('INSERT INTO users(id, full_name, phone_number, email, password) values($1, $2, $3, $4, $5) RETURNING *', [
+          .query('INSERT INTO users(id, full_name, phone_number, email, password) values($1, $2, $3, $4, $5),($6, $7, $8, $9, $10) RETURNING *', [
             '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
             'Fashola Eniola',
             '08124774308',
             'email@email.com',
             'llswhfwoiholnsklhflqaoih',
+            '33a38220-7d3e-11e8-a4a2-c79efef2daf8',
+            'Medoye Bimbo',
+            '08124774309',
+            'email2@email.com',
+            'llswhfwoiholnsklhflqaoih',
           ]).then(() => {
             client
               .query(
-                'INSERT INTO ride_offers(id, user_id, destination, point_of_departure, vehicle_capacity, departure_time, departure_date) values($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+                'INSERT INTO ride_offers(id, user_id, destination, point_of_departure, vehicle_capacity, departure_time, departure_date) values($1, $2, $3, $4, $5, $6, $7),($8, $9, $10, $11, $12, $13, $14) RETURNING *',
                 [
                   '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
                   '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
                   'Mowe',
                   'Ibafo',
                   5,
+                  '10:30 PM',
+                  '02/08/2018',
+                  '53a38220-7d3e-11e8-a4a2-c79efef2daf8',
+                  '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
+                  'Mowe',
+                  'Ibafo',
+                  0,
                   '10:30 PM',
                   '02/08/2018',
                 ],
@@ -60,6 +72,12 @@ describe('API tests', () => {
 
   const token = jwt.sign({
     id: '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
+  }, process.env.JWTSECRET, {
+    expiresIn: 86400,
+  });
+
+  const user2token = jwt.sign({
+    id: '33a38220-7d3e-11e8-a4a2-c79efef2daf8',
   }, process.env.JWTSECRET, {
     expiresIn: 86400,
   });
@@ -225,6 +243,28 @@ describe('API tests', () => {
       });
   });
 
+  it('Can join a ride offer', (done) => {
+    request(app)
+      .post('/api/v1/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests')
+      .set('x-access-token', user2token)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.data.name).to.equal('Medoye Bimbo');
+        done();
+      });
+  });
+
+  it('Returns a 400 if vehicle capacity is 0 when trying to join ride offer', (done) => {
+    request(app)
+      .post('/api/v1/rides/53a38220-7d3e-11e8-a4a2-c79efef2daf8/requests')
+      .set('x-access-token', user2token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('All seats for this ride offer have been booked.');
+        done();
+      });
+  });
+
   it('Returns a 400 if id is invalid when trying to join a ride offer', (done) => {
     request(app)
       .post('/api/v1/rides/26626266/requests')
@@ -377,6 +417,16 @@ describe('API tests', () => {
       .expect(200)
       .end((err, res) => {
         expect(res.body.message).to.equal('1 Ride Offer(s) deleted successfully.');
+        done();
+      });
+  });
+
+  it('Returns a 200 when trying to access api docs', (done) => {
+    request(app)
+      .get('/api/docs')
+      .expect(200)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200);
         done();
       });
   });
