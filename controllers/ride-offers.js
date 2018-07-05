@@ -4,6 +4,7 @@ import cleanData from '../services/utils';
 const uuid = require('uuid');
 
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const validNumberRegex = /^\d+$/;
 
 const getAllRides = (req, res) => {
   const { destination, startingPoint } = req.query;
@@ -78,7 +79,7 @@ const createRideOffer = (req, res) => {
   } = req.body;
 
   if (
-    !vehicleCapacity ||
+    !validNumberRegex.test(vehicleCapacity) ||
     !cleanData(destination) ||
     !departureTime ||
     !cleanData(pointOfDeparture) ||
