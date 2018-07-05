@@ -87,7 +87,7 @@ const createRideOffer = (req, res) => {
   ) {
     return res.status(400).send({
       status: 'failed',
-      message: 'One of the following fields is missing "destination", "vehicleCapacity", "departureTime", "pointOfDeparture", "departureDate".',
+      message: 'One of the following fields is missing; destination, vehicleCapacity, departureTime, pointOfDeparture, departureDate.',
     });
   }
 
