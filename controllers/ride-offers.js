@@ -153,25 +153,38 @@ const joinRide = (req, res) => {
           message: 'All seats for this ride offer have been booked.',
         });
       }
-      client.query('SELECT * from users WHERE id = $1', [req.userId]).then((user) => {
-        client
-          .query(
-            'INSERT INTO requests(id, ride_id, user_id, name) values($1, $2, $3, $4) RETURNING *',
-            [uuid(), rideId, req.userId, user.rows[0].full_name],
-          )
-          .then((data) => {
-            res.status(201).send({
-              status: 'success',
-              data: data.rows[0],
-              message: 'Joined ride successfully',
-            });
-          })
-          .catch(() => {
-            res.status(500).send({
-              status: 'error',
-              message: 'An error occurred when trying to make a request to a ride offer.',
-            });
+      client.query('SELECT * from requests WHERE ride_id = $1 AND user_id = $2', [rideId, req.userId]).then((request) => {
+        if (request.rowCount > 0) {
+          return res.status(400).send({
+            status: 'failed',
+            message: 'You have already made a request for this ride offer.',
           });
+        }
+
+        client.query('SELECT * from users WHERE id = $1', [req.userId]).then((user) => {
+          client
+            .query(
+              'INSERT INTO requests(id, ride_id, user_id, name) values($1, $2, $3, $4) RETURNING *',
+              [uuid(), rideId, req.userId, user.rows[0].full_name],
+            )
+            .then((data) => {
+              res.status(201).send({
+                status: 'success',
+                data: data.rows[0],
+                message: 'Joined ride successfully',
+              });
+            })
+            .catch(() => {
+              res.status(500).send({
+                status: 'error',
+                message: 'An error occurred when trying to make a request to a ride offer.',
+              });
+            });
+        }).catch(() => {
+          res
+            .status(500)
+            .send({ status: 'error', message: 'An unexpected error occured.' });
+        });
       }).catch(() => {
         res
           .status(500)
