@@ -3,9 +3,7 @@
 # Ride My Way
 A carpooling application that provides drivers with the ability to create ride offers and passengers to join available ride offers.
 
-Ride-My-Way is a carpooling application that provides drivers with the ability to create ride offers and passengers to join available ride offers.
-
-### Required Features
+### Features
 
 - Users can create an account and log in.
 - Drivers can add ride offers..
@@ -15,34 +13,70 @@ the ride leaves, where it is headed e.t.c
 - Drivers can view the requests to the ride offer they created.
 - Drivers can either accept or reject a ride request.
 
-### Optional Features
-
-- Users can only see and respond to ride offers from their friends on the application .
-- Passengers get real time notifications when their request is accepted or rejected
-
 ### Relevant Tech Stack
 
-- Node JS
-- Express JS
-- Mocha, Chai, Babel
+1.  **Node.js/express.js**: The API was built using Node JS(server side implementation of javascript) and the Express JS framework.
+2.  **PostgreSQL/node-postgres**: PostgreSQL is the database used for this application, with node-postgres being a collection of node.js modules for interfacing with the PostgreSQL database.
 
 ### Installation and Setup
 
-1. Clone the repo
+To get a local version of this application, please make sure to have the following system dependencies installed and ensure postgreSQL has been setup properly,
 
-`git clone https://github.com/lexcorp16/ride-my-way.git`
+- [Node.js](https://nodejs.org/)
+- [PostgresQL](https://www.postgresql.org/)
 
-2. Install dependencies
 
-`npm i`
+1.  Clone the repository:
 
-3. Run the command below to start up the app
+```
+git clone  https://github.com/lexcorp16/ride-my-way.git
 
-`npm run dev`
+```
+
+2.  Navigate into the cloned repository directory using:
+
+```
+cd ride-my-way
+
+```
+
+3.  Install dependencies:
+
+```
+npm i 
+
+```
+
+4.  create a **.env** file and add the required environment variables as defined in the **.env.example** file
+5.  Run the following commands in the specified order to set up your database. 
+
+```
+npm run create:enums
+npm run create:usertable
+npm run create:rideofferstable
+npm run create:requeststable
+```
+
+6.  Now run the command below to start the app.
+
+```
+npm run dev
+```
 
 ### Running tests
 
 To run the tests already written for this application, run
 
-`npm test`
+```
+npm test
+```
+
+### API Endpoints
+
+See  [API Documentation](https://ride-my-way-app.herokuapp.com/api/docs)
+
+### Contact the Author
+
+- [Google](<mailto:[afasorojoseph@gmail.com](afasorojoseph@gmail.com)>)
+- [LinkedIn](https://www.linkedin.com/in/alexander-fasoro-joseph/)
 
