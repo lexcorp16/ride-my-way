@@ -267,36 +267,39 @@ const respondToRideRequest = (req, res) => {
           status: 'failed',
           message: 'The specified request does not exist.',
         });
-      } else if (request.rows[0].user_id === req.userId) {
-        client
-          .query(
-            'UPDATE requests SET status = $1 WHERE id = $2 RETURNING *',
-            [status, requestId],
-          )
-          .then((data) => {
-            res.status(200).send({
-              status: 'success',
-              data: data.rows[0],
-              message: 'Successfully responded to ride offer request.',
-            });
-          })
-          .catch(() => {
-            res.status(500).send({
-              status: 'error',
-              message: 'An error occured when responding to ride offer request.',
-            });
-          });
-      } else {
-        res.status(403).send({
-          status: 'error',
-          message: 'You are not permitted to respond to this request.',
-        });
       }
-    })
-    .catch(() => {
-      res.status(500).send({
-        status: 'error',
-        message: 'An unexpected error occurred.',
+
+      client.query('SELECT * FROM ride_offers WHERE id = $1', [rideId]).then((ride) => {
+        if (ride.rows[0].user_id === req.userId) {
+          client
+            .query(
+              'UPDATE requests SET status = $1 WHERE id = $2 RETURNING *',
+              [status, requestId],
+            )
+            .then((data) => {
+              res.status(200).send({
+                status: 'success',
+                data: data.rows[0],
+                message: 'Successfully responded to ride offer request.',
+              });
+            })
+            .catch(() => {
+              res.status(500).send({
+                status: 'error',
+                message: 'An error occured when responding to ride offer request.',
+              });
+            });
+        } else {
+          res.status(403).send({
+            status: 'error',
+            message: 'You are not permitted to respond to this request.',
+          });
+        }
+      }).catch(() => {
+        res.status(500).send({
+          status: 'error',
+          message: 'An unexpected error occurred.',
+        });
       });
     });
 };
