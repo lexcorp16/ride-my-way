@@ -93,7 +93,7 @@ const logInUser = (req, res) => {
 
       return res.status(200).send({
         status: 'success',
-        message: 'You are successfully login.',
+        message: 'You are successfully logged in.',
         token,
         user: {
           id: user.rows[0].id,

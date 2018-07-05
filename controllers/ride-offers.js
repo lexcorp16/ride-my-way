@@ -190,7 +190,7 @@ const getOfferRequests = (req, res) => {
 
   client.query('SELECT * from ride_offers WHERE id = $1', [rideId]).then((ride) => {
     if (ride.rows[0].user_id !== req.userId) {
-      return res.status(400).send({
+      return res.status(403).send({
         status: 'failed',
         message: 'You cannot view requests for ride offers created by others.',
       });
@@ -274,7 +274,7 @@ const respondToRideRequest = (req, res) => {
             });
           });
       } else {
-        res.status(400).send({
+        res.status(403).send({
           status: 'error',
           message: 'You are not permitted to respond to this request.',
         });
@@ -312,7 +312,7 @@ const deleteRideOffer = (req, res) => {
           });
         });
       } else {
-        return res.status(400).send({
+        return res.status(403).send({
           status: 'failed',
           message: 'You are not permitted to delete this ride offer.',
         });

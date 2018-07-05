@@ -270,7 +270,7 @@ describe('API tests', () => {
       });
   });
 
-  it('Returns a 400 if the wrong user tries to view requests for a ride offer', (done) => {
+  it('Returns a 403 if the wrong user tries to view requests for a ride offer', (done) => {
     const unknownUsertoken = jwt.sign({
       id: '93a38220-7d3e-11e8-a4a2-c79efef2daf8',
     }, process.env.JWTSECRET, {
@@ -280,7 +280,7 @@ describe('API tests', () => {
     request(app)
       .get('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests')
       .set('x-access-token', unknownUsertoken)
-      .expect(400)
+      .expect(403)
       .end((err, res) => {
         expect(res.body.message).to.equal('You cannot view requests for ride offers created by others.');
         done();
@@ -322,7 +322,7 @@ describe('API tests', () => {
       });
   });
 
-  it('Returns a 400 if the wrong user tries to respond to a ride request', (done) => {
+  it('Returns a 403 if the wrong user tries to respond to a ride request', (done) => {
 
     const unknownUsertoken = jwt.sign({
       id: '93a38220-7d3e-11e8-a4a2-c79efef2daf8',
@@ -334,7 +334,7 @@ describe('API tests', () => {
       .put('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests/83a38220-7d3e-11e8-a4a2-c79efef2daf8')
       .set('x-access-token', unknownUsertoken)
       .send({ status: 'accepted' })
-      .expect(400)
+      .expect(403)
       .end((err, res) => {
         expect(res.body.message).to.equal('You are not permitted to respond to this request.');
         done();
@@ -376,7 +376,7 @@ describe('API tests', () => {
       });
   });
 
-  it('Returns a 400 if the wrong user tries to delete a ride offer', (done) => {
+  it('Returns a 403 if the wrong user tries to delete a ride offer', (done) => {
     const unknownUsertoken = jwt.sign({
       id: '93a38220-7d3e-11e8-a4a2-c79efef2daf8',
     }, process.env.JWTSECRET, {
@@ -386,7 +386,7 @@ describe('API tests', () => {
     request(app)
       .delete('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8')
       .set('x-access-token', unknownUsertoken)
-      .expect(400)
+      .expect(403)
       .end((err, res) => {
         expect(res.body.message).to.equal('You are not permitted to delete this ride offer.');
         done();
