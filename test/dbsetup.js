@@ -26,7 +26,7 @@ const setupDatabase = () =>
                   'Mowe',
                   'Ibafo',
                   5,
-                  '10:30 PM',
+                  '10:30',
                   '02/08/2018',
                   '53a38220-7d3e-11e8-a4a2-c79efef2daf8',
                   '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
