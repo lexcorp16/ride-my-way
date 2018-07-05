@@ -237,6 +237,17 @@ describe('API tests', () => {
       });
   });
 
+  it('Returns a 400 if a user tries to join a ride offer more than once', (done) => {
+    request(app)
+      .post('/api/v1/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests')
+      .set('x-access-token', user2token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('You have already made a request for this ride offer.');
+        done();
+      });
+  });
+
   it('Returns a 400 if vehicle capacity is 0 when trying to join ride offer', (done) => {
     request(app)
       .post('/api/v1/rides/53a38220-7d3e-11e8-a4a2-c79efef2daf8/requests')
