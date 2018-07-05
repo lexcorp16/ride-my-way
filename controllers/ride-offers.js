@@ -91,31 +91,44 @@ const createRideOffer = (req, res) => {
     });
   }
 
-  client
-    .query(
-      'INSERT INTO ride_offers(id, user_id, destination, point_of_departure, vehicle_capacity, departure_time, departure_date) values($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [
-        uuid(),
-        req.userId,
-        destination,
-        pointOfDeparture,
-        vehicleCapacity,
-        departureTime,
-        departureDate,
-      ],
-    )
-    .then((resp) => {
-      res.status(201).send({
-        status: 'success',
-        data: resp.rows[0],
-        message: 'Ride offer successfully created.',
+  client.query('SELECT * FROM ride_offers WHERE user_id = $1 AND departure_time = $2 AND departure_date = $3', [req.userId, departureTime, departureDate]).then((ride) => {
+    if (ride.rowCount > 0) {
+      return res.status(400).send({
+        status: 'failed',
+        message: 'You already have a ride scheduled for this period.',
       });
-    })
-    .catch(() => {
-      res
-        .status(500)
-        .send({ status: 'error', message: 'An error occurred when creating ride offer.' });
-    });
+    }
+
+    client
+      .query(
+        'INSERT INTO ride_offers(id, user_id, destination, point_of_departure, vehicle_capacity, departure_time, departure_date) values($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [
+          uuid(),
+          req.userId,
+          destination,
+          pointOfDeparture,
+          vehicleCapacity,
+          departureTime,
+          departureDate,
+        ],
+      )
+      .then((resp) => {
+        res.status(201).send({
+          status: 'success',
+          data: resp.rows[0],
+          message: 'Ride offer successfully created.',
+        });
+      })
+      .catch(() => {
+        res
+          .status(500)
+          .send({ status: 'error', message: 'An error occurred when creating ride offer.' });
+      });
+  }).catch(() => {
+    res
+      .status(500)
+      .send({ status: 'error', message: 'An unexpected error occurred.' });
+  });
 };
 
 const joinRide = (req, res) => {

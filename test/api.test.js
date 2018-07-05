@@ -36,15 +36,50 @@ describe('API tests', () => {
       .send({
         vehicleCapacity: 5,
         destination: 'Toronto',
-        departureTime: '10:30',
+        departureTime: '10:50',
         pointOfDeparture: 'Ontario',
-        departureDate: '02/02/2018',
+        departureDate: '02/05/2018',
       })
       .set('x-access-token', token)
       .expect(201)
       .end((err, res) => {
         expect(res.body.data.destination).to.equal('Toronto');
         expect(res.body.data.point_of_departure).to.equal('Ontario');
+        done();
+      });
+  });
+
+  it('Returns a 401 if token is missing', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        vehicleCapacity: 5,
+        destination: 'Toronto',
+        departureTime: '10:30 PM',
+        pointOfDeparture: 'Ontario',
+        departureDate: '02/02/2018',
+      })
+      .expect(401)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('You need to login to access this route.');
+        done();
+      });
+  });
+
+  it('Returns a 400 if a user tries to create multiple offers for the same period', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        vehicleCapacity: 5,
+        destination: 'Toronto',
+        departureTime: '10:30',
+        pointOfDeparture: 'Ontario',
+        departureDate: '02/08/2018',
+      })
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('You already have a ride scheduled for this period.');
         done();
       });
   });
