@@ -133,6 +133,11 @@ const joinRide = (req, res) => {
           status: 'failed',
           message: 'You cannot join a ride offer you have created.',
         });
+      } else if (ride.rows[0].vehicle_capacity === 0) {
+        return res.status(400).send({
+          status: 'failed',
+          message: 'All seats for this ride offer have been booked.',
+        });
       }
       client.query('SELECT * from users WHERE id = $1', [req.userId]).then((user) => {
         client
