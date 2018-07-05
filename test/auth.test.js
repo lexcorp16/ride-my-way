@@ -38,7 +38,7 @@ describe('Authentication tests', () => {
       });
   });
 
-  it('Returns a 409 if user already exists when signing in', (done) => {
+  it('Returns a 409 if user already exists when signing up', (done) => {
     const userDetails = {
       email: 'awesomeemail@gmail.com',
       password: 'supersecret',
@@ -163,7 +163,7 @@ describe('Authentication tests', () => {
       .send({ password: userDetails.password })
       .expect(400)
       .end((err, res) => {
-        expect(res.body.message).to.contain('One of the following fields is missing, "email", "password", "phoneNumber", "fullName".');
+        expect(res.body.message).to.contain('One of the following fields is missing; email, password, phoneNumber, fullName.');
         done();
       });
   });
@@ -222,7 +222,7 @@ describe('Authentication tests', () => {
       })
       .expect(404)
       .end((err, res) => {
-        expect(res.body.message).to.contain('No user exists with that email.');
+        expect(res.body.message).to.contain('Email or Password is incorrect.');
         done();
       });
   });

@@ -69,7 +69,7 @@ const logInUser = (req, res) => {
     .query('SELECT * FROM users WHERE email = $1', [email])
     .then((user) => {
       if (user.rowCount === 0) {
-        return res.status(404).send({ status: 'failed', message: 'No user exists with that email.' });
+        return res.status(404).send({ status: 'failed', message: 'Email or Password is incorrect.' });
       }
 
       const passwordIsValid = bcrypt.compareSync(

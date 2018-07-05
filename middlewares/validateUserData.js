@@ -23,7 +23,7 @@ const validateSignUpData = (req, res, next) => {
   if (!email || !password || !phoneNumber || !cleanData(fullName)) {
     return res.status(400).send({
       status: 'failed',
-      message: 'One of the following fields is missing, "email", "password", "phoneNumber", "fullName".',
+      message: 'One of the following fields is missing; email, password, phoneNumber, fullName.',
     });
   } else if (!emailRegex.test(email)) {
     return res.status(400).send({
