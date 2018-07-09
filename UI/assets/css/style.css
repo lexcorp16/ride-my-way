@@ -492,7 +492,7 @@ th.main-header {
 
 .collapsible {
   align-items: center;
-  background-color: #dddddd;
+  background-color: #c5e1a5;
   border: none;
   color: #414042;
   cursor: pointer;
@@ -509,7 +509,7 @@ th.main-header {
 
 .active,
 .collapsible:hover {
-  background-color: #c0c0c0;
+  background-color: #aed581;
 }
 
 .collapsible:after {
