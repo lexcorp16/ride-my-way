@@ -35,16 +35,16 @@ describe('API tests', () => {
       .post('/api/v1/users/rides')
       .send({
         vehicleCapacity: 5,
-        destination: 'Toronto',
+        destination: 'toronto',
         departureTime: '10:50',
-        pointOfDeparture: 'Ontario',
+        pointOfDeparture: 'ontario',
         departureDate: '02/05/2018',
       })
       .set('x-access-token', token)
       .expect(201)
       .end((err, res) => {
-        expect(res.body.data.destination).to.equal('Toronto');
-        expect(res.body.data.point_of_departure).to.equal('Ontario');
+        expect(res.body.data.destination).to.equal('toronto');
+        expect(res.body.data.point_of_departure).to.equal('ontario');
         done();
       });
   });
@@ -298,6 +298,24 @@ describe('API tests', () => {
       });
   });
 
+  it('Returns a 403 if the wrong user tries to respond to a ride request', (done) => {
+    const unknownUsertoken = jwt.sign({
+      id: '93a38220-7d3e-11e8-a4a2-c79efef2daf8',
+    }, process.env.JWTSECRET, {
+      expiresIn: 86400,
+    });
+
+    request(app)
+      .put('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests/83a38220-7d3e-11e8-a4a2-c79efef2daf8')
+      .set('x-access-token', unknownUsertoken)
+      .send({ status: 'accepted' })
+      .expect(403)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('You are not permitted to respond to this request.');
+        done();
+      });
+  });
+
   it('Can respond to a ride offer request', (done) => {
     request(app)
       .put('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests/83a38220-7d3e-11e8-a4a2-c79efef2daf8')
@@ -306,6 +324,18 @@ describe('API tests', () => {
       .expect(201)
       .end((err, res) => {
         expect(res.body.data.status).to.equal('accepted');
+        done();
+      });
+  });
+
+  it('Returns a 400 when trying to respond to a ride request more than once', (done) => {
+    request(app)
+      .put('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests/83a38220-7d3e-11e8-a4a2-c79efef2daf8')
+      .set('x-access-token', token)
+      .send({ status: 'accepted' })
+      .expect(403)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('You have already responded to this request.');
         done();
       });
   });
@@ -329,25 +359,6 @@ describe('API tests', () => {
       .expect(400)
       .end((err, res) => {
         expect(res.body.message).to.equal('status field is missing. Please supply "acepted" or "rejected"');
-        done();
-      });
-  });
-
-  it('Returns a 403 if the wrong user tries to respond to a ride request', (done) => {
-
-    const unknownUsertoken = jwt.sign({
-      id: '93a38220-7d3e-11e8-a4a2-c79efef2daf8',
-    }, process.env.JWTSECRET, {
-      expiresIn: 86400,
-    });
-
-    request(app)
-      .put('/api/v1/users/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8/requests/83a38220-7d3e-11e8-a4a2-c79efef2daf8')
-      .set('x-access-token', unknownUsertoken)
-      .send({ status: 'accepted' })
-      .expect(403)
-      .end((err, res) => {
-        expect(res.body.message).to.equal('You are not permitted to respond to this request.');
         done();
       });
   });

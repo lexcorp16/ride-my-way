@@ -11,16 +11,16 @@ const getAllRides = (req, res) => {
 
   if (destination && startingPoint) {
     client
-      .query('SELECT * from ride_offers WHERE destination = $1 AND point_of_departure = $2', [destination, startingPoint])
+      .query('SELECT * from ride_offers WHERE destination = $1 AND point_of_departure = $2', [destination.toLowerCase(), startingPoint.toLowerCase()])
       .then((rides) => {
-        res.status(200).send({
+        return res.status(200).send({
           status: 'success',
           data: rides.rows,
           message: `${rides.rowCount} Rides round`,
         });
       })
       .catch(() => {
-        res.status(500).send({
+        return res.status(500).send({
           status: 'error',
           message: 'An error occurred fetching ride offers.',
         });
@@ -105,8 +105,8 @@ const createRideOffer = (req, res) => {
         [
           uuid(),
           req.userId,
-          destination,
-          pointOfDeparture,
+          destination.toLowerCase(),
+          pointOfDeparture.toLowerCase(),
           vehicleCapacity,
           departureTime,
           departureDate,
@@ -263,14 +263,23 @@ const respondToRideRequest = (req, res) => {
     .query('SELECT * from requests where ride_id = $1 AND id = $2', [rideId, requestId])
     .then((request) => {
       if (request.rowCount === 0) {
-        res.status(404).send({
+        return res.status(404).send({
           status: 'failed',
           message: 'The specified request does not exist.',
+        });
+      } else if (request.rows[0].status !== 'pending') {
+        return res.status(400).send({
+          status: 'failed',
+          message: 'You have already responded to this request.',
         });
       }
 
       client.query('SELECT * FROM ride_offers WHERE id = $1', [rideId]).then((ride) => {
         if (ride.rows[0].user_id === req.userId) {
+          if (status === 'accepted') {
+            client.query('UPDATE ride_offers SET vehicle_capacity = vehicle_capacity - 1 WHERE id = $1 AND vehicle_capacity > 0 RETURNING *', [rideId]).catch(err => console.log(err));
+          }
+
           client
             .query(
               'UPDATE requests SET status = $1 WHERE id = $2 RETURNING *',
