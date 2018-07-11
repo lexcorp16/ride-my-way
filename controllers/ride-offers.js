@@ -274,10 +274,10 @@ const respondToRideRequest = (req, res) => {
         });
       }
 
-      client.query('SELECT * FROM ride_offers WHERE id = $1', [rideId]).then(async (ride) => {
+      client.query('SELECT * FROM ride_offers WHERE id = $1', [rideId]).then((ride) => {
         if (ride.rows[0].user_id === req.userId) {
           if (status === 'accepted') {
-            await client.query('UPDATE requests SET vehicle_capacity = vehicle_capacity - 1 WHERE id = $1 AND vehicle_capacity > 0 RETURNING *', [rideId]);
+            client.query('UPDATE ride_offers SET vehicle_capacity = vehicle_capacity - 1 WHERE id = $1 AND vehicle_capacity > 0 RETURNING *', [rideId]).catch(err => console.log(err));
           }
 
           client
