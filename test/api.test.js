@@ -181,6 +181,17 @@ describe('API tests', () => {
       });
   });
 
+  it('Gets all ride offers for a user', (done) => {
+    request(app)
+      .get('/api/v1/users/rides')
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.data).to.be.instanceOf(Array);
+        done();
+      });
+  });
+
   it('Gets a single ride offer', (done) => {
     request(app)
       .get('/api/v1/rides/73a38220-7d3e-11e8-a4a2-c79efef2daf8')
@@ -324,6 +335,17 @@ describe('API tests', () => {
       .expect(201)
       .end((err, res) => {
         expect(res.body.data.status).to.equal('accepted');
+        done();
+      });
+  });
+
+  it('Gets all ride offer requests for a user', (done) => {
+    request(app)
+      .get('/api/v1/users/requests')
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.data).to.be.instanceOf(Array);
         done();
       });
   });
