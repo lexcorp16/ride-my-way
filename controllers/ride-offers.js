@@ -26,7 +26,7 @@ const getUserRides = (req, res) => {
 
 const getUserRequests = (req, res) => {
   client
-    .query('SELECT * from requests WHERE user_id = $1', [req.userId])
+    .query('SELECT * from ride_offers INNER JOIN requests ON ride_offers.id = requests.ride_id')
     .then((requests) => {
       res.status(200).send({
         status: 'success',
