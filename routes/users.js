@@ -9,6 +9,10 @@ const router = express.Router();
 
 router.post('/rides', verifyLogin, validateDateTime, rideController.createRideOffer);
 
+router.get('/rides', verifyLogin, rideController.getUserRides);
+
+router.get('/requests', verifyLogin, rideController.getUserRequests);
+
 router.delete('/rides/:rideId', verifyLogin, validateId, rideController.deleteRideOffer);
 
 router.get('/rides/:rideId/requests', verifyLogin, validateId, rideController.getOfferRequests);

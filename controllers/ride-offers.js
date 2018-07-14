@@ -6,6 +6,42 @@ const uuid = require('uuid');
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const validNumberRegex = /^\d+$/;
 
+const getUserRides = (req, res) => {
+  client
+    .query('SELECT * from ride_offers WHERE user_id = $1', [req.userId])
+    .then((rides) => {
+      res.status(200).send({
+        status: 'success',
+        data: rides.rows,
+        message: `${rides.rowCount} Ride Offer(s) found`,
+      });
+    })
+    .catch(() => {
+      res.status(500).send({
+        status: 'error',
+        message: 'An error occurred fetching ride offers.',
+      });
+    });
+};
+
+const getUserRequests = (req, res) => {
+  client
+    .query('SELECT * from requests WHERE user_id = $1', [req.userId])
+    .then((requests) => {
+      res.status(200).send({
+        status: 'success',
+        data: requests.rows,
+        message: `${requests.rowCount} Request(s) found`,
+      });
+    })
+    .catch(() => {
+      res.status(500).send({
+        status: 'error',
+        message: 'An error occurred fetching requests.',
+      });
+    });
+};
+
 const getAllRides = (req, res) => {
   const { destination, startingPoint } = req.query;
 
@@ -16,7 +52,7 @@ const getAllRides = (req, res) => {
         return res.status(200).send({
           status: 'success',
           data: rides.rows,
-          message: `${rides.rowCount} Rides round`,
+          message: `${rides.rowCount} Rides found`,
         });
       })
       .catch(() => {
@@ -358,4 +394,6 @@ export {
   getOfferRequests,
   respondToRideRequest,
   deleteRideOffer,
+  getUserRides,
+  getUserRequests,
 };
