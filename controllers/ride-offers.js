@@ -8,7 +8,7 @@ const validNumberRegex = /^\d+$/;
 
 const getUserRides = (req, res) => {
   client
-    .query('SELECT * from ride_offers WHERE user_id = $1', [req.user_id])
+    .query('SELECT * from ride_offers WHERE user_id = $1', [req.userId])
     .then((rides) => {
       res.status(200).send({
         status: 'success',
@@ -26,7 +26,7 @@ const getUserRides = (req, res) => {
 
 const getUserRequests = (req, res) => {
   client
-    .query('SELECT * from requests WHERE user_id = $1 AND status = $2', [req.user_id, 'accepted'])
+    .query('SELECT * from requests WHERE user_id = $1', [req.userId])
     .then((requests) => {
       res.status(200).send({
         status: 'success',
