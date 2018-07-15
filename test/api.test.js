@@ -165,7 +165,7 @@ describe('API tests', () => {
       .set('x-access-token', token)
       .expect(400)
       .end((err, res) => {
-        expect(res.body.message).to.equal('Please enter a date in this format dd/mm/yyyy');
+        expect(res.body.message).to.equal('Please enter a date in this format mm/dd/yyyy');
         done();
       });
   });
@@ -184,6 +184,17 @@ describe('API tests', () => {
   it('Gets all ride offers for a user', (done) => {
     request(app)
       .get('/api/v1/users/rides')
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.data).to.be.instanceOf(Array);
+        done();
+      });
+  });
+
+  it('Gets all requests for a user\'s ride offer', (done) => {
+    request(app)
+      .get('/api/v1/users/rides/requests')
       .set('x-access-token', token)
       .expect(200)
       .end((err, res) => {
