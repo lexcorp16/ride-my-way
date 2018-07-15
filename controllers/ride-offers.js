@@ -26,7 +26,25 @@ const getUserRides = (req, res) => {
 
 const getUserRequests = (req, res) => {
   client
-    .query('SELECT * from ride_offers INNER JOIN requests ON ride_offers.id = requests.ride_id')
+    .query('SELECT * from requests INNER JOIN ride_offers ON requests.ride_id = ride_offers.id AND requests.user_id = $1', [req.userId])
+    .then((requests) => {
+      res.status(200).send({
+        status: 'success',
+        data: requests.rows,
+        message: `${requests.rowCount} Request(s) found`,
+      });
+    })
+    .catch(() => {
+      res.status(500).send({
+        status: 'error',
+        message: 'An error occurred fetching requests.',
+      });
+    });
+};
+
+const getRequestsForUserRides = (req, res) => {
+  client
+    .query('SELECT * from ride_offers INNER JOIN requests ON requests.ride_id = ride_offers.id AND ride_offers.user_id = $1', [req.userId])
     .then((requests) => {
       res.status(200).send({
         status: 'success',
@@ -396,4 +414,5 @@ export {
   deleteRideOffer,
   getUserRides,
   getUserRequests,
+  getRequestsForUserRides,
 };

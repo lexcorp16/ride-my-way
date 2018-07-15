@@ -11,6 +11,8 @@ router.post('/rides', verifyLogin, validateDateTime, rideController.createRideOf
 
 router.get('/rides', verifyLogin, rideController.getUserRides);
 
+router.get('/rides/requests', verifyLogin, rideController.getRequestsForUserRides);
+
 router.get('/requests', verifyLogin, rideController.getUserRequests);
 
 router.delete('/rides/:rideId', verifyLogin, validateId, rideController.deleteRideOffer);
