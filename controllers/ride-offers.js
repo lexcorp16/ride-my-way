@@ -79,22 +79,23 @@ const getAllRides = (req, res) => {
           message: 'An error occurred fetching ride offers.',
         });
       });
+  } else {
+    client
+      .query('SELECT * from ride_offers')
+      .then((rides) => {
+        res.status(200).send({
+          status: 'success',
+          data: rides.rows,
+          message: `${rides.rowCount} Ride Offer(s) found`,
+        });
+      })
+      .catch(() => {
+        res.status(500).send({
+          status: 'error',
+          message: 'An error occurred fetching ride offers.',
+        });
+      });
   }
-  client
-    .query('SELECT * from ride_offers')
-    .then((rides) => {
-      res.status(200).send({
-        status: 'success',
-        data: rides.rows,
-        message: `${rides.rowCount} Ride Offer(s) found`,
-      });
-    })
-    .catch(() => {
-      res.status(500).send({
-        status: 'error',
-        message: 'An error occurred fetching ride offers.',
-      });
-    });
 };
 
 const getOneRide = (req, res) => {
