@@ -38,7 +38,7 @@ describe('API tests', () => {
         destination: 'toronto',
         departureTime: '10:50',
         pointOfDeparture: 'ontario',
-        departureDate: '02/05/2018',
+        departureDate: '02/05/2050',
       })
       .set('x-access-token', token)
       .expect(201)
@@ -74,7 +74,7 @@ describe('API tests', () => {
         destination: 'Toronto',
         departureTime: '10:30',
         pointOfDeparture: 'Ontario',
-        departureDate: '02/08/2018',
+        departureDate: '02/08/2080',
       })
       .set('x-access-token', token)
       .expect(400)
@@ -126,7 +126,7 @@ describe('API tests', () => {
         destination: 'Toronto',
         departureTime: '10:30',
         pointOfDeparture: 'Ontario',
-        departureDate: '02/02/2018',
+        departureDate: '02/02/2090',
       })
       .set('x-access-token', token)
       .expect(400)
@@ -166,6 +166,23 @@ describe('API tests', () => {
       .expect(400)
       .end((err, res) => {
         expect(res.body.message).to.equal('Please enter a date in this format mm/dd/yyyy');
+        done();
+      });
+  });
+
+  it('Returns a 400 when creating a ride offer for a date in the past', (done) => {
+    request(app)
+      .post('/api/v1/users/rides')
+      .send({
+        destination: 'Toronto',
+        departureTime: '10:30',
+        pointOfDeparture: 'Ontario',
+        departureDate: '05/12/2018',
+      })
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Please enter a date in the future.');
         done();
       });
   });
