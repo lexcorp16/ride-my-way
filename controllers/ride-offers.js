@@ -65,7 +65,24 @@ const getAllRides = (req, res) => {
 
   if (destination && startingPoint) {
     client
-      .query('SELECT * from ride_offers WHERE destination = $1 AND point_of_departure = $2', [destination.toLowerCase(), startingPoint.toLowerCase()])
+      .query(`SELECT
+              ride_offers.id,
+              ride_offers.user_id,
+              ride_offers.destination,
+              ride_offers.point_of_departure,
+              ride_offers.vehicle_capacity,
+              ride_offers.departure_time,
+              ride_offers.departure_date,
+              users.full_name AS driver_name,
+              users.phone_number AS driver_phone
+              FROM
+              ride_offers
+              INNER JOIN
+              users
+              ON
+              ride_offers.user_id = users.id
+              AND destination = $1
+              AND point_of_departure = $2`, [destination.toLowerCase(), startingPoint.toLowerCase()])
       .then((rides) => {
         return res.status(200).send({
           status: 'success',
@@ -81,7 +98,22 @@ const getAllRides = (req, res) => {
       });
   } else {
     client
-      .query('SELECT * from ride_offers')
+      .query(`SELECT
+              ride_offers.id,
+              ride_offers.user_id,
+              ride_offers.destination,
+              ride_offers.point_of_departure,
+              ride_offers.vehicle_capacity,
+              ride_offers.departure_time,
+              ride_offers.departure_date,
+              users.full_name AS driver_name,
+              users.phone_number AS driver_phone
+              FROM
+              ride_offers
+              INNER JOIN
+              users
+              ON
+              ride_offers.user_id = users.id`)
       .then((rides) => {
         res.status(200).send({
           status: 'success',
@@ -89,11 +121,27 @@ const getAllRides = (req, res) => {
           message: `${rides.rowCount} Ride Offer(s) found`,
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         res.status(500).send({
           status: 'error',
           message: 'An error occurred fetching ride offers.',
         });
+      });
+  }
+  client
+    .query('SELECT * from ride_offers')
+    .then((rides) => {
+      res.status(200).send({
+        status: 'success',
+        data: rides.rows,
+        message: `${rides.rowCount} Ride Offer(s) found`,
+      });
+    })
+    .catch(() => {
+      res.status(500).send({
+        status: 'error',
+        message: 'An error occurred fetching ride offers.',
       });
   }
 };
@@ -102,7 +150,23 @@ const getOneRide = (req, res) => {
   const { rideId } = req.params;
 
   client
-    .query('SELECT * from ride_offers WHERE id = $1', [rideId])
+    .query(`SELECT
+            ride_offers.id,
+            ride_offers.user_id,
+            ride_offers.destination,
+            ride_offers.point_of_departure,
+            ride_offers.vehicle_capacity,
+            ride_offers.departure_time,
+            ride_offers.departure_date,
+            users.full_name AS driver_name,
+            users.phone_number AS driver_phone
+            FROM
+            ride_offers
+            INNER JOIN
+            users
+            ON
+            ride_offers.user_id = users.id
+            AND ride_offers.id = $1`, [rideId])
     .then((ride) => {
       if (ride.rowCount === 0) {
         return res.status(404).send({
@@ -116,7 +180,8 @@ const getOneRide = (req, res) => {
         message: 'Specified ride offer found.',
       });
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err)
       res.status(500).send({
         status: 'error',
         message: 'An error occurred fetching details of ride offer.',
