@@ -26,7 +26,22 @@ const getUserRides = (req, res) => {
 
 const getUserRequests = (req, res) => {
   client
-    .query('SELECT * from requests INNER JOIN ride_offers ON requests.ride_id = ride_offers.id AND requests.user_id = $1', [req.userId])
+    .query(`SELECT
+            ride_offers.destination,
+            ride_offers.point_of_departure,
+            ride_offers.vehicle_capacity,
+            ride_offers.departure_time,
+            ride_offers.departure_date,
+            users.full_name AS driver_name,
+            users.phone_number AS driver_phone
+            FROM
+            requests
+            INNER JOIN
+            ride_offers
+            ON requests.ride_id = ride_offers.id AND requests.user_id = $1
+            INNER JOIN
+            users
+            ON requests.user_id = users.id`, [req.userId])
     .then((requests) => {
       res.status(200).send({
         status: 'success',
@@ -65,24 +80,7 @@ const getAllRides = (req, res) => {
 
   if (destination && startingPoint) {
     client
-      .query(`SELECT
-              ride_offers.id,
-              ride_offers.user_id,
-              ride_offers.destination,
-              ride_offers.point_of_departure,
-              ride_offers.vehicle_capacity,
-              ride_offers.departure_time,
-              ride_offers.departure_date,
-              users.full_name AS driver_name,
-              users.phone_number AS driver_phone
-              FROM
-              ride_offers
-              INNER JOIN
-              users
-              ON
-              ride_offers.user_id = users.id
-              AND destination = $1
-              AND point_of_departure = $2`, [destination.toLowerCase(), startingPoint.toLowerCase()])
+      .query('SELECT * FROM ride_offers WHERE destination = $1 AND point_of_departure = $2', [destination.toLowerCase(), startingPoint.toLowerCase()])
       .then((rides) => {
         return res.status(200).send({
           status: 'success',
@@ -98,22 +96,7 @@ const getAllRides = (req, res) => {
       });
   } else {
     client
-      .query(`SELECT
-              ride_offers.id,
-              ride_offers.user_id,
-              ride_offers.destination,
-              ride_offers.point_of_departure,
-              ride_offers.vehicle_capacity,
-              ride_offers.departure_time,
-              ride_offers.departure_date,
-              users.full_name AS driver_name,
-              users.phone_number AS driver_phone
-              FROM
-              ride_offers
-              INNER JOIN
-              users
-              ON
-              ride_offers.user_id = users.id`)
+      .query('SELECT * FROM ride_offers')
       .then((rides) => {
         res.status(200).send({
           status: 'success',
@@ -134,23 +117,7 @@ const getOneRide = (req, res) => {
   const { rideId } = req.params;
 
   client
-    .query(`SELECT
-            ride_offers.id,
-            ride_offers.user_id,
-            ride_offers.destination,
-            ride_offers.point_of_departure,
-            ride_offers.vehicle_capacity,
-            ride_offers.departure_time,
-            ride_offers.departure_date,
-            users.full_name AS driver_name,
-            users.phone_number AS driver_phone
-            FROM
-            ride_offers
-            INNER JOIN
-            users
-            ON
-            ride_offers.user_id = users.id
-            AND ride_offers.id = $1`, [rideId])
+    .query('SELECT * FROM ride_offers WHERE ride_offers.id = $1', [rideId])
     .then((ride) => {
       if (ride.rowCount === 0) {
         return res.status(404).send({
