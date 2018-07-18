@@ -61,6 +61,9 @@ const getRequestsForUserRides = (req, res) => {
 };
 
 const getAllRides = (req, res) => {
+  const page = req.params.page || 1;
+  const perPage = 9;
+
   const { destination, startingPoint } = req.query;
 
   if (destination && startingPoint) {
@@ -82,12 +85,18 @@ const getAllRides = (req, res) => {
               ON
               ride_offers.user_id = users.id
               AND destination = $1
-              AND point_of_departure = $2`, [destination.toLowerCase(), startingPoint.toLowerCase()])
+              AND point_of_departure = $2 LIMIT = $3 OFFSET = $3`, [destination.toLowerCase(),
+        startingPoint.toLowerCase(),
+        perPage,
+        (perPage * page) - perPage,
+      ])
       .then((rides) => {
         return res.status(200).send({
           status: 'success',
           data: rides.rows,
           message: `${rides.rowCount} Rides found`,
+          currentPage: page,
+          pages: Math.ceil(rides.rowCount / perPage),
         });
       })
       .catch(() => {
