@@ -85,7 +85,7 @@ const getAllRides = (req, res) => {
               ON
               ride_offers.user_id = users.id
               AND destination = $1
-              AND point_of_departure = $2 LIMIT = $3 OFFSET = $3`, [destination.toLowerCase(),
+              AND point_of_departure = $2 LIMIT $3 OFFSET $4`, [destination.toLowerCase(),
         startingPoint.toLowerCase(),
         perPage,
         (perPage * page) - perPage,
