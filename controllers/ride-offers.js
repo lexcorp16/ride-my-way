@@ -33,7 +33,8 @@ const getUserRequests = (req, res) => {
             ride_offers.departure_time,
             ride_offers.departure_date,
             users.full_name AS driver_name,
-            users.phone_number AS driver_phone
+            users.phone_number AS driver_phone,
+            requests.status
             FROM
             requests
             INNER JOIN
