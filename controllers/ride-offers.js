@@ -8,7 +8,7 @@ const validNumberRegex = /^\d+$/;
 
 const getUserRides = (req, res) => {
   client
-    .query('SELECT * from ride_offers WHERE user_id = $1', [req.userId])
+    .query('SELECT * from ride_offers WHERE user_id = $1 ORDER BY departure_date DESC', [req.userId])
     .then((rides) => {
       res.status(200).send({
         status: 'success',
@@ -42,7 +42,7 @@ const getUserRequests = (req, res) => {
             ON requests.ride_id = ride_offers.id AND requests.user_id = $1
             INNER JOIN
             users
-            ON requests.user_id = users.id`, [req.userId])
+            ON requests.user_id = users.id ORDER BY ride_offers.departure_date DESC`, [req.userId])
     .then((requests) => {
       res.status(200).send({
         status: 'success',
@@ -97,7 +97,7 @@ const getAllRides = (req, res) => {
       });
   } else {
     client
-      .query('SELECT * FROM ride_offers')
+      .query('SELECT * FROM ride_offers ORDER BY departure_date DESC')
       .then((rides) => {
         res.status(200).send({
           status: 'success',
