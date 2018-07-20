@@ -42,7 +42,7 @@ const getUserRequests = (req, res) => {
             ON requests.ride_id = ride_offers.id AND requests.user_id = $1
             INNER JOIN
             users
-            ON requests.user_id = users.id ORDER BY ride_offers.departure_date DESC`, [req.userId])
+            ON ride_offers.user_id = users.id ORDER BY ride_offers.departure_date DESC`, [req.userId])
     .then((requests) => {
       res.status(200).send({
         status: 'success',
