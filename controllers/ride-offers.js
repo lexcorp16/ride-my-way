@@ -61,7 +61,7 @@ const getRequestsForUserRides = (req, res) => {
 };
 
 const getAllRides = (req, res) => {
-  const page = req.params.page || 1;
+  const page = req.query.page || 1;
   const perPage = 9;
 
   const { destination, startingPoint } = req.query;
@@ -85,11 +85,7 @@ const getAllRides = (req, res) => {
               ON
               ride_offers.user_id = users.id
               AND destination = $1
-              AND point_of_departure = $2 LIMIT $3 OFFSET $4`, [destination.toLowerCase(),
-        startingPoint.toLowerCase(),
-        perPage,
-        (perPage * page) - perPage,
-      ])
+              AND point_of_departure = $2`, [destination.toLowerCase(), startingPoint.toLowerCase()])
       .then((rides) => {
         return res.status(200).send({
           status: 'success',
@@ -122,7 +118,7 @@ const getAllRides = (req, res) => {
               INNER JOIN
               users
               ON
-              ride_offers.user_id = users.id`)
+              ride_offers.user_id = users.id LIMIT $1 OFFSET $2`, [perPage, (perPage * page) - perPage])
       .then((rides) => {
         res.status(200).send({
           status: 'success',

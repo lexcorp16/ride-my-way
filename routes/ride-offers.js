@@ -6,7 +6,7 @@ import validateId from '../middlewares/validateId';
 
 const router = express.Router();
 
-router.get('/:page', verifyLogin, rideController.getAllRides);
+router.get('/', verifyLogin, rideController.getAllRides);
 
 router.get('/:rideId', verifyLogin, validateId, rideController.getOneRide);
 
