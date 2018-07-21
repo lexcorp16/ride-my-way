@@ -198,6 +198,18 @@ describe('API tests', () => {
       });
   });
 
+  it('can search for ride offers by destination and starting point', (done) => {
+    request(app)
+      .get('/api/v1/rides?destination=mowe&startingPoint=ibafo')
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        expect(res.body.data[0].destination).to.equal('mowe');
+        expect(res.body.data[0].point_of_departure).to.equal('ibafo');
+        done();
+      });
+  });
+
   it('Gets all ride offers for a user', (done) => {
     request(app)
       .get('/api/v1/users/rides')
@@ -226,7 +238,7 @@ describe('API tests', () => {
       .set('x-access-token', token)
       .expect(200)
       .end((err, res) => {
-        expect(res.body.data.destination).to.equal('Mowe');
+        expect(res.body.data.destination).to.equal('mowe');
         expect(res.body.data.vehicle_capacity).to.equal(5);
         done();
       });

@@ -23,8 +23,8 @@ const setupDatabase = () =>
                 [
                   '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
                   '73a38220-7d3e-11e8-a4a2-c79efef2daf8',
-                  'Mowe',
-                  'Ibafo',
+                  'mowe',
+                  'ibafo',
                   5,
                   '10:30',
                   '02/08/2080',
