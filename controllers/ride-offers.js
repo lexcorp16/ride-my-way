@@ -81,7 +81,7 @@ const getAllRides = (req, res) => {
 
   if (destination && startingPoint) {
     client
-      .query('SELECT * FROM ride_offers WHERE destination = $1 AND point_of_departure = $2', [destination.toLowerCase(), startingPoint.toLowerCase()])
+      .query('SELECT * FROM ride_offers WHERE LOWER (destination) = $1 AND LOWER (point_of_departure) = $2', [destination.toLowerCase(), startingPoint.toLowerCase()])
       .then((rides) => {
         return res.status(200).send({
           status: 'success',
